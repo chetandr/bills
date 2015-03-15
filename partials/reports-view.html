@@ -1,0 +1,70 @@
+<div class="container-fluid do-dashboard ">
+  <div class="row">
+    <div class="col-sm-10">
+      <h1>Reports</h1>
+      <div class="row do-dash-stat">
+        <div class="row do-chart-container">
+          <div class="col-sm-6 do-chart-panel">
+            <highchart id="chart1" class="dashboardLineChart" config="capacitySavings"></highchart>
+          </div>
+          <div class="col-sm-6 do-chart-panel custom-padding01" >
+            <highchart id="chart2" class="dashboardLineChart" config="throughputPolicyChart"></highchart>
+          </div>
+        </div>
+      </div>
+      <!-- /.row --> 
+    </div>
+    <div class="col-sm-2 do-alerts-wrapper pull-right"> 
+      
+      <!-- Alert content added -->
+      <!-- <div ng-include src="'partials/policy-alerts.html'"></div> -->
+      <div ng-include src="'partials/data-source-alerts.html'"></div>
+      <!-- <div class="do-dash-rtask">
+        <h1><i></i>
+          <label>Recent Tasks</label>
+          <div class="clearfix"></div>
+        </h1>
+        <div class="do-task-content">
+          <div class="row">
+            <div class="col-sm-12"> <a href="javascript:void(0)">Task 1</a>
+              <p> Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit. </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12"> <a href="javascript:void(0)">Task 2</a>
+              <p> Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit. </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12"> <a href="javascript:void(0)">Task 3</a>
+              <p> Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit. </p>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+<script>
+	$(document).ready(function() {
+
+		// set window height and width dynamically
+		var winWidth = $(document).width();
+		var winHeight = $(document).height();
+		$('.do-dash-alerts-task').height(winHeight - 63);
+		
+		//Popover
+		$('.over-block').popover({
+			html:true, 
+			trigger:'hover'
+		});
+		//popover hack for keep remain open while clicking
+		$('.over-block').click(function(){
+			$(this).popover('hide'); 
+		});
+
+	}); 
+</script> 

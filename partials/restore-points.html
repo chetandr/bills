@@ -1,0 +1,553 @@
+<div cg-busy="{promise:allLoader,message:'Loading..'}" class="spinner"></div>
+<div class="do-restore-points" >
+	<div class="selected-arrow time-machine-active"></div>
+	<div ng-include src="'partials/heading-checkbox-control.html'"></div>
+	<!--div class="msgContainer" style="position: relative;width: 80%;text-align: center;vertical-align: middle;padding-top:150px;height: 310px;background: #FFF;font-size: 25px;margin-left: 80px;background:#AFAFCF solid 1px" ng-show="dsCount == 0">
+	<div class="">
+	<p>
+	No policies are defined.
+	</p>
+	<p>
+	<!--a href="#policyConfig" type="button" class="btn btn-primary"> Add policy </a>&nbsp;&nbsp;<a href="#dashboard" type="button" class="btn btn-primary" > Dashboard </a>
+	</p>
+	</div>
+	</div-->
+	<div class="panel panel-default" style="margin-top:20px" ng-show="sourceTypes==undefined || sourceTypes.length == 0 || storageTargets==undefined || storageTargets.length <= 0">
+		<div class="panel-heading">
+			Environment Not Configured
+		</div>
+		<div class="panel-body">
+			You have not added a data source or a storage target. Click the button below to go through the configuration.
+			<ul class="nav nav-pills" style="margin-top:10px">
+				<li role="presentation" class="active">
+					<a href="#/configurations">Configuration Workflow</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="restorPointDetailContainer" ng-show="dsCount > 0" ng-hide="sourceTypes==undefined || sourceTypes.length == 0 || storageTargets==undefined || storageTargets.length <= 0">
+		<div class="row">
+			<div class="col-sm-5">
+				<div class="policy-tab-steps">
+					<span>1</span><strong>Select A Management Object</strong>
+				</div>
+				<div class="do-tab-container" index="{{$index}}" ng-repeat="dataSrc in datasources " id="{{language[keys[$index]]}}" ng-class="{true:'activeDatasource', false:'deactivateDatasource'}[$index==0]">
+					<!--tabset justified="false"-->
+					<!--tab heading="{{language[keys[$index]]}}" index="{{$index}}" ng-repeat="dataSrc in datasources "-->
+					<table class="do-rec-recovery" width="100%">
+						<thead>
+							<tr>
+								<th width="24%" style="text-align: center">Data Source
+								<br />
+								Type</th>
+								<th width="24%" style="text-align: center">Cluster
+								<br />
+								Name</th>
+								<th width="28%" style="text-align: center">Management
+								<br />
+								Object</th>
+								<th width="24%" style="text-align: center"> Policy
+								<br/>
+								Count </th>
+							</tr>
+						</thead>
+					</table>
+					<div class="timemachine-tbl-container">
+						<table class="do-rec-recovery">
+							<tbody>
+								<tr ng-click="cassCompletedCount($index)" ng-repeat="statusData in dataSrc" ng-class='{selectedDataSource: $index==selectedRow}'>
+									<td  width="24%" style="text-align: center">{{language[dbSourceTypes[statusData.fname]]}}</td>
+									<td  width="24%" style="text-align: center">{{dbClusters[statusData.fname]}}</td>
+									<td  width="28%" style="text-align: center">{{statusData.fname}}</td>
+									<td  width="24%"  style="text-align: center"><a href="javascript:void(0)" >{{policyCounts[statusData.fname] ? policyCounts[statusData.fname] : 0}}</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!--/tab-->
+					<!--/tabset-->
+				</div>
+			</div>
+			<input type="hidden" id="selectedRow" ng-model="selectedRow" >
+			<div class="col-sm-7">
+				<div class="policy-tab-steps">
+					<span>2</span><strong>Select Your Schedule</strong>
+				</div>
+				<div class="clearfix"></div>
+				<div class="do-rec-accordian" >
+					<accordion close-others="oneAtATime">
+						<div class="purplecoat-mid" ng-show="dbPolicies[dataSource] == undefined">
+							<p>
+								No policy defined for this Management Object.
+							</p>
+							<p>
+								<a href="#policyConfig" type="button" class="btn btn-primary"> Add policy </a>&nbsp;&nbsp;<a href="#dashboard" type="button" class="btn btn-primary" > Dashboard </a>
+							</p>
+						</div>
+						<div ng-show="dbPolicies[dataSource] == undefined" class="purplecoat-msg"></div>
+						<div cg-busy="{promise:scheduleLoader,message:'Loading..'}" class="spinner-inset" ng-show="dbPolicies[dataSource] != undefined"></div>
+						<accordion-group is-open="true"  ng-show="dbPolicies[dataSource] != undefined">
+							<accordion-heading >
+								<div ng-class="'do-accodd-heading'" ng-click="restorPointNum()">
+									<div class="col-sm-5">
+										Policy Name: {{dbPolicies[dataSource].policy_name}}
+									</div>
+									<div  class="col-sm-3">
+										Schedule Count: {{dbSchedules[dataSource].length}}
+									</div>
+									<div class="col-sm-3">
+										Version Count: {{restorePointsVerbose.length}}
+									</div>
+									<div class="col-sm-1">
+										<i class="pull-right fa fa-lg"></i>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</accordion-heading>
+							<div class="row acc-hd-row" ng-repeat="schedule in dbSchedules[dataSource]">
+								<div class="col-sm-5">
+									Schedule Name: <span>{{schedule.schedule_name}}</span>
+								</div>
+								<div class="col-sm-5">
+									Schedule Frequency: <span ng-if ="schedule.interval < 60"> {{schedule.interval}} Seconds </span>
+									<span ng-if ="schedule.interval > 59 && (schedule.interval/60) < 60"> {{schedule.interval/60}} Minutes </span>
+									<span ng-if ="schedule.interval > 59 && (schedule.interval/60) > 59 && ((schedule.interval/60)/60) < 24"> {{schedule.interval/60}} Hours </span>
+									<span ng-if ="schedule.interval > 59 && (schedule.interval/60) > 59 && ((schedule.interval/60)/60) > 23"> {{((schedule.interval/60)/60)/24}} Days </span>
+								</div>
+								<div class="col-sm-2"></div>
+							</div>
+						</accordion-group>
+					</accordion>
+				</div>
+			</div>
+		</div>
+		<!--h4 class="timeline-msg"><span ng-show="current.noOfRestorePoints != 1">These are</span><span ng-show="current.noOfRestorePoints == 1">There is </span><strong style="color:#3879d9"> &nbsp;{{current.noOfRestorePoints}}&nbsp;</strong> version<span ng-show="current.noOfRestorePoints != 1">s</span> of this policy: <span style="color:#3879d9; text-transform: capitalize">{{ current.policyName }}</span>. Please select a version.</h4-->
+		<br />
+		<br />
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="policy-tab-steps">
+					<span>3</span><strong>Please Select A Version To Restore &nbsp;&nbsp;&nbsp;
+					<div ng-show="current.noOfRestorePoints >= 0" class="pull-right">
+						({{restorePointCount[dataSource] ? restorePointCount[dataSource] : 0}})</span>
+					</strong>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-left:0px; margin-right:0px;">
+			<div class="col-sm-12">
+				<div class="col-sm-6">
+					<a href="javascript:void(0)" class="timeline-refresh" ng-click="restorPointNum(current)">Refresh</a>
+					<!--input type="button" value="" class="restore-refresh-btn"/-->
+				</div>
+				<!-- Timeline Control -->
+				<div ng-include src="'partials/timeline-control.html'"></div>
+				<br>
+				<br>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- modal popup content2    -->
+<modal class="modal-summary-restore"  visible="showModal" controller="restorePopupCtrl">
+	<div id="restorePointsModalView" class="row restorePointsModalView">
+		<div class="col-md-12">
+			<div class="timeline">
+				<div class="row">
+					<div class="clearfix modal-chart-img">
+						<img  src="assets/img/timeline.png" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="timeFootMsgPanel">
+			<div id="timeFootRestoreMsg" class="timeFootPurpleCoat">
+				<br/>
+				<p >
+					&nbsp; You are now restoring <strong>Version {{ current.RestorePointNo }}</strong> for Policy <strong>{{current.policyName}}</strong> defined for Management Object <strong>{{current.dataSourceName}}</strong>.
+				</p>
+				<br/>
+				<p style="width:320px">
+					<a href="javascript:void(0)" ng-click="openRestorePointModal()" type="button" class="btn btn-default dashboardBackdrop"> Show Restore Status </a>&nbsp;&nbsp;<a href="javascript:void(0)" type="button" class="btn btn-default"  data-dismiss="modal" aria-hidden="true">Restore Another Version</a>
+				</p>
+			</div>
+			<div id="timeFootLaterMsg" class="timeFootPurpleCoat">
+				<br/>
+				<p>
+					You are scheduled to restore <strong>Version {{ current.RestorePointNo }} </strong> of Policy <strong>{{current.policyName}}</strong> defined for Management Object <strong>{{current.dataSourceName}}</strong>.
+				</p>
+				<br/>
+				<p style="width:320px">
+					<a href="javascript:void(0)" ng-click="openRestorePointModal()"  type="button" class="btn btn-default dashboardBackdrop"> Show Restore Status </a>&nbsp;&nbsp;<a href="javascript:void(0)" type="button" class="btn btn-default"  data-dismiss="modal" aria-hidden="true"> Create restoration</a>
+				</p>
+			</div>
+			<div id="timeFootReDataMsg" class="timeFootPurpleCoat">
+				<ol>
+					<li ng-repeat="restoreDataItem in reifyDataItems">
+						<loading class="pull-left"></loading><checkmark class="pull-left"></checkmark><span class="pull-left"> {{restoreDataItem.message}}</span><span class="pull-left">({{restoreDataItem.duration}})</span>
+						<div class="clearfix"></div>
+					</li>
+				</ol>
+				<br/>
+			</div>
+			<div id="timeFootReAppMsg" class="timeFootPurpleCoat">
+				<ol>
+					<li ng-repeat="reifyAppItem in reifyAppItems">
+						<loading  class="pull-left"></loading><checkmark  class="pull-left"></checkmark><span  class="pull-left"> {{reifyAppItem.message}}</span><span  class="pull-left">({{reifyAppItem.duration}})</span>
+						<div class="clearfix"></div>
+					</li>
+				</ol>
+			</div>
+			<!--div id="restoreCongratulations">Version 16 of xy-db-0 is now backing up.</div-->
+		</div>
+		<div class="row modal-form">
+			<div class="col-md-4">
+				<div class="row">
+					<div class="col-md-6 modal-lbl">
+						Restore Cluster:
+					</div>
+					<div class="col-sm-6">
+						<div class="dropdown source-type-dropdown ds-panel-cont">
+							<input type="hidden" class="clusterNameVal" ng-model="clusterNameVal" value=""   >
+							<a class="btn btn-default dropdown-toggle"><span class="pull-left">{{cluster[0]}}</span> <b class="caret" ></b></a>
+							<ul class="dropdown-menu" role="menu">
+								<li  ng-repeat="clusterNameItem in cluster">
+									<a ng-click="changeClusterName()">{{clusterNameItem}}</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-md-6 label-rest-dest modal-lbl">
+						Restore path:
+					</div>
+					<div class="col-md-6">
+						<input type="text" value="" class="form-control" ng-model="restoreDestination"/>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="row">
+					<div class="col-md-3 modal-lbl">
+						Source Info:
+					</div>
+					<div class="col-md-9 source-info" style="padding-left:0px" >
+						Type : {{language[dataSourceType]}}, Object : {{dataSource}}, Collections :<a id="source-info-collection" href="javascript:void(0)"   ns-popover
+						ns-popover-template="collections"
+						ns-popover-trigger="mouseenter"
+						ns-popover-timeout=0
+						ns-popover-container="a#source-info-collection"
+						ns-popover-placement="bottom"
+						ns-popover-mouse-relative="xy"
+						ns-popover-theme="ns-popover-tooltip-theme">{{restorePointsData[current.RestoreTime].collectionCount}}</a>, 
+						Documents :<a id="source-info-documents" href="javascript:void(0)"   ns-popover
+						ns-popover-template="documents"
+						ns-popover-trigger="mouseenter"
+						ns-popover-timeout=0
+						ns-popover-container="a#source-info-documents"
+						ns-popover-placement="bottom"
+						ns-popover-mouse-relative="xy"
+						ns-popover-theme="ns-popover-tooltip-theme">
+						{{restorePointsData[current.RestoreTime].documentCount}}</a>
+					</div>
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-md-3 modal-lbl">
+						Schedule start date:
+					</div>
+					<div class="col-md-9">
+						<ul>
+							<form>
+								<li style="display:inline-block; margin-right:30px;">
+									<div class="restore-timeline-radio">
+										<label>
+											<input type="radio" name="restoreRadio" id="restoreNowRadio" value="" ng-click="restoreRadioClick('now');" checked >
+											Now</label>
+									</div>
+								</li>
+								<li style="display:inline-block; margin-right:30px;">
+									<div class="restore-timeline-radio">
+										<label>
+											<input type="radio" name="restoreRadio" id="restoreLaterRadio" value=""  ng-click="restoreRadioClick('later');">
+											Later</label>
+									</div>
+								</li>
+							</form>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="row" id="restoreDateString">
+						<div class="col-md-12" style="margin-left: 60px;margin-top: -10px;">
+							<span style="font-style: italic">{{restoreDateString}}</span>
+						</div>
+					</div>
+					<div class="col-md-3"></div>
+					<div class="col-md-9">
+						<div class="row" id="restoreLaterFields" style="display: none">
+							<div class="col-sm-3" style="padding-right: 0px">
+								<p class=" input-group" >
+									<input type="hidden" id="policyDateApi" ng-model="policyDateApi" value="{{policyDate | date : 'yyyy/MM/dd'}}" />
+									<input type="text" id="policyDate" class="form-control well well-sm" datepicker-popup="{{format}}" value="{{policyDate | date : 'yyyy/MM/dd'}}" ng-model="policyDate" show-weeks="true" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" close-text="Close" required="true"/>
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="open($event)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button> </span>
+								</p>
+							</div>
+							<div class="col-sm-6">
+								<div class="scheduledTimeHrs pull-left">
+									<input type="text" id="hours_list"  class="form-control" value="" min="1" max="12" step="1" ng-model="startTimeHrs" required="true" />
+								</div>
+								<div class="scheduledTimeMin pull-left">
+									<input type="text" id="minutes_list"  class="form-control" value="" min="1" max="60" step="1"  ng-model="startTimeMin" required="true"/>
+								</div>
+								<div class="dropdown source-type-dropdown scheduledTimeFormat pull-left" >
+									<input type="hidden" class="sourceTypeVal" ng-model="startTimeFormat" id="startTimeFormat"  value="{{startTimeFormat}}"   >
+									<a class="btn btn-default dropdown-toggle scheduledTimeTag"  id="time_unit"><span class="pull-left">{{startTimeFormat}}</span> <b class="caret pull-right" style="margin-top:10px;"></b></a>
+									<ul class="dropdown-menu dropdown-menu-TimeTag" role="menu">
+										<li >
+											<a ng-click="changestartTimeFormat('AM')">AM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+										</li>
+										<li >
+											<a ng-click="changestartTimeFormat('PM')">PM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div  class="col-sm-1">
+								<div class="timezone" style="margin:8px 0 0 -28px;">
+									{{sysTimeZone}}
+								</div>
+							</div>
+							<div class="col-sm-2"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="modal-footer timemachine">
+			<div class="row">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-5">
+					<div class="pull-left">
+						<button class="btn btn-primary timemachineBtnLeft" id="timeFootRestore" ng-click="submitRestorePointFields()" >
+							<div class="pull-left">
+								Restore  Now
+							</div><span class="pull-right"></span>
+						</button>
+					</div>
+					<div class="pull-left">
+						<button class="btn btn-primary timemachineBtnRight"  id="timeFootLater" disabled ng-click="submitRestorePointFields()">
+							<div class="pull-left">
+								Restore  Later
+							</div><span class="pull-right"></span>
+						</button>
+					</div>
+				</div>
+				<div class="col-sm-5">
+					<div class="pull-right">
+						<button class="btn btn-primary timemachineBtnRight"  id="timeFootReifyApp" ng-click="reifyApp()" disabled style="background-color: #e0e0e0;border-color: #e0e0e0;color: #BBBBBB;">
+							<div class="pull-left">
+								Reify App
+							</div><span class="pull-right"></span>
+						</button>
+					</div>
+					<div class="pull-right">
+						<button class="btn btn-primary timemachineBtnLeft" id="timeFootReifyData" ng-click="reifyData()" disabled style="background-color: #e0e0e0;border-color: #e0e0e0;color: #BBBBBB;">
+							<div class="pull-left">
+								Reify Data
+							</div><span class="pull-right"></span>
+						</button>
+					</div>
+				</div>
+				<div class="col-sm-1"></div>
+			</div>
+			<!--button class="btn btn-default cancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
+			<button class="btn btn-primary restore-message" data-dismiss="modal" aria-hidden="true" ng-click="submitRestorePointFileds()"  >Done</button-->
+		</div>
+		<script type="text/ng-template" id="restore-status.html">
+			<div ng-include src="'partials/restore-status.html'"></div>
+		</script>
+		<script type="text/ng-template" id="collections">
+			<h3>Collections</h3>
+			<ul>
+			<li>
+			collab
+			</li>
+			<li>
+			system-index
+			</li>
+			</ul>
+		</script>
+		<script type="text/ng-template" id="collections">
+			<div class="triangle"></div>
+			<div class="ns-popover-tooltip">
+						<table class="table table-striped" style="font-size: 14px">
+							<thead>
+								<tr><th><strong>Collections</strong></th></tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="(collection,documents) in restorePointsData[current.RestoreTime].collections">
+									<td>
+										{{collection}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+			</div>
+		</script>
+		<script type="text/ng-template" id="documents">
+			<div class="triangle"></div>
+			<div class="ns-popover-tooltip">
+						<table class="table table-striped" style="font-size: 14px">
+							<thead>
+								<tr>
+									<th><strong>Collections</strong></th>
+									<th><strong>Documents</strong></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="(collection,documents) in restorePointsData[current.RestoreTime].collections">
+									<td>
+										{{collection}}
+									</td>
+									<td>
+										{{documents}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+			</div>
+		</script>
+		<script>
+			$(document).ready(function() {
+
+				$('#timeFootRestore').click(function() {
+					$("#timeFootRestoreMsg").show().fadeIn(7000);
+					$("#timeFootLaterMsg").hide();
+					$("#timeFootReDataMsg").hide();
+					$("#timeFootReAppMsg").hide();
+
+					//$("#timeFootRestoreMsg").show().fadeOut(7000);
+					/*setTimeout(function(){
+					 $("#restoreCongratulations").show().fadeOut(10000);
+					 }, 3000);*/
+
+				});
+
+				$('#timeFootLater').click(function() {
+					$("#timeFootLaterMsg").show().fadeIn(7000);
+					$("#timeFootRestoreMsg").hide();
+					$("#timeFootReDataMsg").hide();
+					$("#timeFootReAppMsg").hide();
+
+				});
+				/*$('#timeFootReifyData').click(function() {
+				 $("#timeFootReDataMsg").show().fadeIn(7000);
+				 $("#timeFootLaterMsg").hide();
+				 $("#timeFootRestoreMsg").hide();
+				 $("#timeFootReAppMsg").hide();
+
+				 });
+				 $('#timeFootReifyApp').click(function() {
+				 $("#timeFootReAppMsg").show().fadeIn(7000);
+				 $("#timeFootReDataMsg").hide();
+				 $("#timeFootLaterMsg").hide();
+				 $("#timeFootRestoreMsg").hide();
+
+				 });*/
+				$('.dashboardBackdrop').click(function() {
+					$('.modal-backdrop').remove();
+				});
+				$('.modal-summary-restore .chart-view').click(function() {
+					$('#restorePointsChartView').css('display', 'block');
+					$('#restorePointsTableView').css('display', 'none');
+					$('.chart-view').addClass('active');
+					$('.grid-view').removeClass('active');
+				});
+				$('.modal-summary-restore .grid-view').click(function() {
+					$('#restorePointsChartView').css('display', 'none');
+					$('#restorePointsTableView').css('display', 'block');
+					$('.chart-view').removeClass('active');
+					$('.grid-view').addClass('active');
+				});
+				$('.redirect-to-summary').click(function() {
+					$('.modal-summary-restore .modal-footer').hide();
+					$('.summary-steps').css('display', 'block');
+					$('#restorePointsModalView').css('display', 'none');
+					$('.modal-header h4').css('visibility', 'hidden');
+				});
+				$('.modal-summary-restore .close').click(function() {
+					$('.summary-steps').css('display', 'none');
+					$('#restorePointsModalView').css('display', 'block');
+
+				});
+				$('.summary-steps .back').click(function() {
+					$('.summary-steps').css('display', 'none');
+					$('#restorePointsModalView').css('display', 'block');
+					$('.modal-summary-restore .modal-footer').show();
+				});
+				$("#restoreCustom").click(function() {
+					$('.custom-details').show();
+				});
+				$("#restoreNow").click(function() {
+					$('.custom-details').hide();
+				});
+				$(".do-res-timeline .dock ul li a").hover(function() {
+					$(".do-res-timeline .dock ul li a").removeClass('active');
+				});
+				//$('.do-rec-submessage.success').hide();
+				$('.restore-message').click(function() {
+					$('.do-rec-submessage.success').show();
+				});
+				// Error message plugIn
+				toastr.options = {
+					closeButton : true,
+					debug : false,
+					progressBar : true,
+					positionClass : "toast-top-right",
+					preventDuplicates : false,
+					onclick : null,
+					showDuration : "300",
+					hideDuration : "1000",
+					timeOut : "5000",
+					extendedTimeOut : "1000",
+					showEasing : "swing",
+					hideEasing : "linear",
+					showMethod : "fadeIn",
+					hideMethod : "fadeOut"
+				};
+
+			});
+
+			$('.modal-dialog .close').click(function() {
+				$('.modal-summary-restore .modal-footer').show();
+			});
+			function changeSelectedRow(id) {
+				angular.element('#selectedRow').scope().$apply(function() {
+					angular.element('#selectedRow').scope().selectedRow = 0
+				})
+				var datasources = angular.element('#selectedRow').scope().datasources;
+				for(var i = 0; i < Object.keys(datasources).length; i++) {
+					if(datasources[i][0].dataSourceType == id) {
+						var ds = datasources[i][0].dataSourceType, dst = datasources[i][0].data[0].dataSourceName;
+						angular.element('#selectedRow').scope().cassCompletedCount(0, ds, dst);
+						angular.element('#selectedRow').scope().status = [{
+							isFirstOpen : true,
+							isFirstDisabled : false,
+							open : true
+						}];
+						$('.tab-content').scrollTop(0);
+					}
+				}
+				$('.in').removeClass('in');
+				$('.panel-collapse').first().addClass('in');
+			}
+		</script>
+</modal>

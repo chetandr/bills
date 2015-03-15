@@ -1,0 +1,95 @@
+<div class="do-dashboard">
+	<div class="row do-dash-stat">
+		<div class="do-dash-container">
+			<div class="col-sm-3 do-fl-panel longest-running-bl">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="dash-lf7">
+							<!-- <i class="ico-dash-saving"></i> -->
+							<span>Capacity Savings</span>
+						</div>
+					</div>
+					<div class="panel-body">
+						<ul class="do-dash-list">
+							<li class="clearfix">
+								<label>Logical</label>
+								<a href="javascript:void(0)" style="cursor:default"> 
+									<span ng-if="stats.data_size.logical_data_size == 'N/A'">N/A</span> 
+									<span ng-if="stats.data_size.logical_data_size != 'N/A' && stats.data_size.logical_data_size < 1024">{{stats.data_size.logical_data_size | number:0}}Bytes</span> 
+									<span ng-if="stats.data_size.logical_data_size != 'N/A' && stats.data_size.logical_data_size >= 1024 && (stats.data_size.logical_data_size/1024) < 1024">{{stats.data_size.logical_data_size/1024 | number:0}}KB</span> 
+									<span ng-if="stats.data_size.logical_data_size != 'N/A' && stats.data_size.logical_data_size/1024 > 1024 && stats.data_size.logical_data_size/1048576 < 1024">{{stats.data_size.logical_data_size/1048576 | number:0}}MB</span> 
+									<span ng-if="stats.data_size.logical_data_size != 'N/A' && stats.data_size.logical_data_size/1048576 > 1024 && stats.data_size.logical_data_size/1073741824 < 1024">{{stats.data_size.logical_data_size/1073741824 | number:0}}GB</span> <span ng-if="stats.data_size.logical_data_size != 'N/A' && stats.data_size.logical_data_size/1073741824 > 1024 ">{{(stats.data_size.logical_data_size/1073741824)/1024 | number:0}}TB</span> 
+								</a>
+							</li>
+							<li class="clearfix">
+								<label>Physical</label>
+								<a href="javascript:void(0)" style="cursor:default"> <span ng-if="stats.data_size.physical_data_size != 'N/A' && stats.data_size.physical_data_size < 1024">{{stats.data_size.physical_data_size | number:0}}Bytes</span> <span ng-if="stats.data_size.physical_data_size != 'N/A' && stats.data_size.physical_data_size >= 1024 && (stats.data_size.physical_data_size/1024) < 1024">{{stats.data_size.physical_data_size/1024 | number:0}}KB</span> <span ng-if="stats.data_size.physical_data_size != 'N/A' && stats.data_size.physical_data_size/1024 > 1024 && stats.data_size.physical_data_size/1048576 < 1024">{{stats.data_size.physical_data_size/1048576 | number:0}}MB</span> <span ng-if="stats.data_size.physical_data_size != 'N/A' && stats.data_size.physical_data_size/1048576 > 1024 && stats.data_size.physical_data_size/1073741824 < 1024">{{stats.data_size.physical_data_size/1073741824 | number:0}}GB</span> <span ng-if="stats.data_size.physical_data_size != 'N/A' && stats.data_size.physical_data_size/1073741824 > 1024">{{(stats.data_size.physical_data_size/1073741824)/1024 | number:0}}TB</span> </a>
+							</li>
+							<li class="clearfix">
+								<label>Percentage</label>
+								<a href="javascript:void(0)" style="cursor:default">{{(stats.data_size.percentage!= undefined ? stats.data_size.percentage:0)}}%</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 do-fl-panel storage-block">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="dash-lf4">
+							<!-- <i class="icon_longest_retained_data"></i> --><span>Total Retained Data</span>
+						</div>
+					</div>
+					<div class="panel-body">
+						<a href="javascript:void(0)"  class="do-big-text-stat" style="cursor:default"> 
+							<span ng-if="stats.data_size.totalRet == 'N/A'">N/A</span> 
+							<span ng-if="stats.data_size.totalRet != 'N/A'  && stats.data_size.totalRet < 1024">{{stats.data_size.totalRet | number:0}}Bytes</span> 
+							<span ng-if="stats.data_size.totalRet != 'N/A'  && stats.data_size.totalRet >= 1024 && (stats.data_size.totalRet/1024) < 1024">{{stats.data_size.totalRet/1024 | number:0}}KB</span> 
+							<span ng-if="stats.data_size.totalRet != 'N/A'  && stats.data_size.totalRet/1024 > 1024 && stats.data_size.totalRet/1048576 < 1024">{{stats.data_size.totalRet/1048576 | number:0}}MB</span> 
+							<span ng-if="stats.data_size.totalRet != 'N/A'  && stats.data_size.totalRet/1048576 > 1024 && stats.data_size.totalRet/1073741824 < 1024">{{stats.data_size.totalRet/1073741824 | number:0}}G</span> </a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 longest-running-bl">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="dash-lf5">
+							<!-- <i class="icon_data_retained_more_1_yrs"></i> --><span>Data Retained (>2 Weeks) </span>
+						</div>
+					</div>
+					<div class="panel-body">
+						<a href="javascript:void(0)"  class="do-big-text-stat" style="cursor:default"> <span ng-if="stats.retGt2 == 'N/A'">N/A</span> <span ng-if="stats.retGt2 != 'N/A'  && stats.retGt2 < 1024">{{stats.retGt2 | number:0}}Bytes</span> <span ng-if="stats.retGt2 != 'N/A'  && stats.retGt2 >= 1024 && (stats.retGt2/1024) < 1024">{{stats.retGt2/1024 | number:0}}KB</span> <span ng-if="stats.retGt2 != 'N/A'  && stats.retGt2/1024 > 1024 && stats.retGt2/1048576 < 1024">{{stats.retGt2/1048576 | number:0}}GB</span> <span ng-if="stats.retGt2 != 'N/A'  && stats.retGt2/1048576 > 1024 && stats.retGt2/1073741824 < 1024">{{stats.retGt2/1073741824 | number:0}}TB</span> </a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 longest-running-bl do-fl-panel">
+				<div class="panel panel-primary do-last-panel">
+					<div class="panel-heading">
+						<div class="dash-lf6">
+							<!-- <i class="icon_data_retained_less_1_yrs"></i> -->
+							<span>Data Retained (<2 Weeks) </span>
+						</div>
+					</div>
+					<div class="panel-body">
+						<a href="javascript:void(0)"  class="do-big-text-stat" style="cursor:default"> <span ng-if="stats.retLt2 == 'N/A'">N/A</span> <span ng-if="stats.retLt2 != 'N/A' && stats.retLt2 < 1024">{{stats.retLt2 | number:0}}Bytes</span> <span ng-if="stats.retLt2 != 'N/A' && stats.retLt2 >= 1024 && (stats.retLt2/1024) < 1024">{{stats.retLt2/1024 | number:0}}KB</span> <span ng-if="stats.retLt2 != 'N/A' && stats.retLt2/1024 > 1024 && stats.retLt2/1048576 < 1024">{{stats.retLt2/1048576 | number:0}}GB</span> <span ng-if="stats.retLt2 != 'N/A' && stats.retLt2/1048576 > 1024 && stats.retLt2/1073741824 < 1024">{{stats.retLt2/1073741824 | number:0}}TB</span> </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function() {
+
+		//Popover
+		$('.over-block').popover({
+			html : true,
+			trigger : 'hover'
+		});
+		//popover hack for keep remain open while clicking
+		$('.over-block').click(function() {
+			$(this).popover('hide');
+		});
+	});
+
+</script>

@@ -1,0 +1,137 @@
+<div class="do-data-source-details">
+	<div cg-busy="{promise:allLoader,message:'Loading..'}" class="spinner"></div>
+	<div class="row">
+		<div class="col-sm-10">
+			<div class="row page-top">
+				<div class="col-sm-6">
+					<a href="#dataSourceSummary">
+					<button type="button" class="btn btn-primary">
+						<i class="fa fa-angle-left fa-lg"></i> Back
+					</button> </a>
+				</div>
+				<div class="col-sm-6 text-right">
+					<a href="javascript:void(0);" ng-click="open('md')">
+					<button type="button" class="btn btn-primary">
+						Add Data Source
+					</button></a>
+					<a href="#policyConfig">
+					<button type="button" class="btn btn-primary">
+						Add Policy
+					</button></a>
+					<a href="javascript:void(0)">
+					<button type="button" class="btn btn-primary" ng-click="removeSource();">
+						Remove Data Source
+					</button></a>
+				</div>
+			</div>
+			<div>
+				<div>
+					<h3>Data Source Info</h3>
+				</div>
+				<div class="panel-container">
+					<div class="panel">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-6">
+									<dl class="data-source-info dl-horizontal txt-normal">
+										<dt>
+											Data Source Name:
+										</dt>
+										<dd>
+											{{app_instance_id}}
+										</dd>
+										<dt>
+											Type of Data Source:
+										</dt>
+										<dd>
+											{{language[sourceTypeVal]}}
+										</dd>
+										<dt>
+											No of Management Objects:
+										</dt>
+										<dd>
+											{{datasourcesForInstance[app_instance_id].length}}
+										</dd>
+										<!--dt>Version Number:</dt>
+										<dd>HDFS v2314..21341</dd>
+										<dt>MMS Launch:</dt>
+										<dd><a href="http://www.test.com" target="_blank">http://www.test.com</a></dd-->
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div>
+					<h3>Management Objects</h3>
+				</div>
+				<div class="panel-container">
+					<!--div class="row">
+					<div class="col-sm-6">
+					<dl class="dl-horizontal txt-normal">
+					<dt>Policy Count:</dt>
+					<dd>1</dd>
+					</dl>
+					</div>
+					</div-->
+					<div class="row">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th style="text-align:center">Object Name<span class="caret"></span></th>
+									<th style="text-align:center">Policy Name<span class="caret"></span></th>
+									<th style="text-align:center">Schedule Count<span class="caret"></span></th>
+									<th style="text-align:center">Version Count<span class="caret"></span></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="manObject in datasourcesForInstance[app_instance_id]">
+									<td style="text-align:center">{{manObject.fname}}</td>
+									<td style="text-align:center">{{dbPolicies[manObject.fname] ? dbPolicies[manObject.fname].policy_name : 'N/A'}}</td>
+									<td style="text-align:center">{{dbSchedules[manObject.fname] ? dbSchedules[manObject.fname].length : 0}}</td>
+									<td style="text-align:center">{{restorePointCount[manObject.fname] ? restorePointCount[manObject.fname] : 0}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!--div>
+			<div><h3>Version Summary</h3></div>
+			<div class="panel-container">
+			<div class="panel">
+			<div class="panel-body">
+			<div class="row">
+			<div class="col-sm-12">
+			<dl class="dl-horizontal txt-normal">
+			<dt>Version Count:</dt>
+			<dd>10</dd>
+			</dl>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div-->
+		</div>
+		<div class="col-sm-2 do-alerts-wrapper pull-right">
+			<div ng-include src="'partials/data-source-alerts.html'"></div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function() {
+
+		// set window height and width dynamically
+		var winWidth = $(document).width();
+		var winHeight = $(document).height();
+		$('.do-dash-alerts-task').height(winHeight - 63);
+
+	});
+
+</script>
+<script type="text/ng-template" id="addDataSourceModal.html">
+	<div ng-include src="'partials/add-data-source.html'"></div>
+</script>

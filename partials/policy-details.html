@@ -1,0 +1,227 @@
+<div cg-busy="{promise:allLoader,message:'Loading..'}" class="spinner"></div>
+<div class="do-policy-details" >
+	<div class="row">
+		<div class="col-sm-10">
+			<div class="row page-top">
+				<div class="col-sm-6">
+					<a href="#policySummary">
+					<button type="button" class="btn btn-primary">
+						<i class="fa fa-angle-left fa-lg"></i> Back
+					</button> </a>
+				</div>
+				<div class="col-sm-6 text-right">
+					<a href="#policyConfig">
+					<button type="button" class="btn btn-primary">
+						Create New Schedule
+					</button></a>
+					<a href="javascript:void(0)">
+					<button type="button" class="btn btn-primary" ng-click="removePolicy()">
+						Remove Policy
+					</button></a>
+				</div>
+			</div>
+			<div class="do-policy-details-container">
+				<div >
+					<h3>Policy Name : <strong>{{policyDetails.policy_name}}</strong></h3>
+				</div>
+				<div class="panel-container">
+					<div class="panel">
+						<div class="panel-body">
+							<!--div class="well well-lg well-default">
+							<dl class="dl-horizontal txt-normal progress-wrapper">
+							<dt>Policy Status:</dt>
+							<dd> <i class="ico-sprites ico-green-thumb"></i>
+							<div class="progress">
+							<div class="progress-bar progress-bar-success progress-bar-striped  active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%"> <span class="sr-only">40% Complete (success)</span> </div>
+							</div>
+							<dl class="dl-horizontal txt-normal text-left">
+							<dt>Completed Tasks:</dt>
+							<dd>10</dd>
+							<dt>Remaining Tasks:</dt>
+							<dd>0</dd>
+							<dt>Run:</dt>
+							<dd>5 Times</dd>
+							</dl>
+							</dd>
+							</dl>
+							</div -->
+							<div class="row">
+								<div class="col-sm-5">
+									<dl class="dl-horizontal txt-normal">
+										<dt>
+											Data Source :
+										</dt>
+										<dd>
+											{{policyDetails.app_instance_id}} ( {{language[policyDetails.agtype]}} )
+										</dd>
+										<dt>
+											Management Object:
+										</dt>
+										<dd>
+											{{policyDetails.fname}}
+										</dd>
+										<dt>
+											Storage Target:
+										</dt>
+										<dd>
+											{{policyDetails.store}} ( {{policyDetails.store_type}} )
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-4">
+									<dl class="dl-horizontal txt-normal">
+										<dt>
+											Policy State:
+										</dt>
+										<dd>
+											{{getPolicyState(policyDetails.start_time)}} <span class="isActive" ng-show="getPolicyState(policyDetails.start_time) == 'Active'"></span>
+										</dd>
+										<dt>
+											Start Time:
+										</dt>
+										<dd>
+											{{changeTime(policyDetails.start_time,'MMM DD HH:mm')}}
+										</dd>
+										<dt ng-show="getPolicyState(policyDetails.start_time) == 'Active'">
+											Active For:
+										</dt>
+										<dd ng-show="getPolicyState(policyDetails.start_time) == 'Active'">
+											{{getPolicyActiveFor(policyDetails.start_time)}}
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-3">
+									<dl class="dl-horizontal txt-normal">
+										<dt>
+											Schedule Count:
+										</dt>
+										<dd>
+											{{policyDetails.schedules.length}}
+										</dd>
+										<dt>
+											Total Version Count:
+										</dt>
+										<dd>
+											{{restorePointCount[policyDetails.fname]}}
+										</dd>
+										<!--dt>Protected Data Summary (Size):</dt>
+										<dd>N/A</dd-->
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div >
+				<h3>Schedule List</h3>
+			</div>
+			<div class="do-historic-data policy-summary">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Schedule Name</th>
+							<th>Start Date</th>
+							<th>Schedule Frequency</th>
+							<th>Retention Period</th>
+							<th style="text-align: center">Schedule Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="schedule in policyDetails.schedules">
+							<td>{{schedule.schedule_name}}</td>
+							<td>{{changeTime(schedule.start_time,'MMM DD HH:mm')}}</td>
+							<td><span ng-if="schedule.interval < 60">{{schedule.interval | number : 0}} sec</span><span ng-if="schedule.interval > 59 && schedule.interval/60 < 60">{{schedule.interval/60 | number : 0}} min</span><span ng-if="schedule.interval/60 > 59 && schedule.interval/3600 < 60 ">{{schedule.interval/3600 | number : 0}} hrs</span><span ng-if="schedule.interval/3600 > 23">{{schedule.interval/86400 | number : 0}} days</span></td>
+							<td><span ng-if="schedule.retention_time < 60">{{schedule.retention_time | number : 0}} sec</span><span ng-if="schedule.retention_time > 59 && schedule.retention_time/60 < 60">{{schedule.retention_time/60 | number : 0}} min</span><span ng-if="schedule.retention_time/60 > 59 && schedule.retention_time/3600 < 60 ">{{schedule.retention_time/3600 | number : 0}} hrs</span><span ng-if="schedule.retention_time/3600 > 23">{{schedule.retention_time/86400 | number : 0}} days</span></td>
+							<td style="text-align: center">{{getScheduleStatus(schedule.start_time)}}</td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</div>
+			<div >
+				<h3>Version List</h3>
+			</div>
+			
+			
+
+			<div class="versionList">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th style="width:52px"></th>
+							<th style="width:130px">Version Number</th>
+							<th style="width:170px;"> Time</th>
+							<th style="width:130px">Collection Count</th>
+							<th style="width:130px">Document Count</th>
+							<th style="width:130px">Logical Size</th>
+							<th style="width:130px">Physical Size</th>
+							<th style="width:130px"> Cumulative Size</th>
+						</tr>
+					</thead>
+				</table>
+				
+			  <accordion close-others="oneAtATime">
+					<accordion-group is-open="status[$index].open"  ng-repeat="(version,restoreData) in restorePointsData">
+						<accordion-heading >
+							<div  class="version-summary" ng-class="{odd:$index%2 == 1}">
+								<div colspan="5" class="versionData">
+									<table class="table table-striped">
+										<tbody>
+											<tr  ng-class="{evenClass:$index%2==1,oddClass:$index%2==0}" rel = "{{$index%2}}" >
+												<td class="glyphicon" ng-class="{'glyphicon-chevron-down': status[$index].open, 'glyphicon-chevron-right': !status[$index].open}" style="display:table-cell;width:52px">&nbsp;</td>
+												<td class="versionNumber" style="width:130px;">{{$index+1}}</td>
+												<td class="time" style="width:170px;">{{changeTime(version,'MMM DD YYYY HH:mm')}}</td>
+												<td class="collectionCount" style="width:130px;">{{restoreData.collectionCount}}</td>
+												<td class="documentCount" style="width:130px;">{{restoreData.documentCount}}</td>
+												<td class="logicalSize" style="width:130px;">{{getDataSize(restoreData.logical)}}</td>
+												<td class="physicalSize" style="width:130px;">{{getDataSize(restoreData.physical)}}</td>
+												<td class="cumulatievSaving" style="width:130px;">{{getDataSize(restoreData.cumulativeSaving)}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</accordion-heading>
+							<div   class="version-data ">
+								<div colspan="2"></div>
+								<div colspan="5">
+									<table class="table table-striped table-centered">
+										<thead >
+											<tr>
+												<th>Collection</th>
+												<th>Document Count</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="(collection,documentCount) in restoreData.collections" >
+												<th>{{collection}}</th>
+												<th>{{documentCount}}</th>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+					</accordion-group>
+			  </accordion>
+			  
+			</div>
+			<div class="do-historic-data verision-summary col-md-10" style="padding-left: 0px">
+			</div>
+		</div>
+		<div class="col-sm-2 do-alerts-wrapper pull-right">
+			<div ng-include src="'partials/data-source-alerts.html'"></div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function() {
+
+		// set window height and width dynamically
+		var winWidth = $(document).width();
+		var winHeight = $(document).height();
+		$('.do-dash-alerts-task').height(winHeight - 63);
+
+	});
+
+</script>

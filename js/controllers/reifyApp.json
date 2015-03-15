@@ -1,0 +1,12 @@
+[
+	{
+		"message": "Data Integrity Check",
+		"duration": "10 Seconds"
+	}, {
+		"message": "Database Verification",
+		"duration": "2 Minutes"
+	}, {
+		"message": "Database Deployed",
+		"duration": "3 Minutes"
+	}
+]

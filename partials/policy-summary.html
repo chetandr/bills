@@ -1,0 +1,217 @@
+<style>
+	.modal-dialog {
+		width: 1100px !important;
+	}
+
+</style>
+<div cg-busy="{promise:allLoader,message:'Loading..'}" class="spinner"></div>
+<div class="do-policy-summery" >
+	<div class="row">
+		<div class="col-sm-10">
+			<div ng-include src="'partials/heading-checkbox-control.html'"></div>
+
+			<div class="row">
+				<div class="col-sm-12 data-dash-left status-panel">
+					<div ng-include src="'partials/policy-statistics.html'" ></div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="pull-left">
+						<h3>Policy List</h3>
+					</div>
+					<div class="pull-right">
+						<a class="btn btn-primary dropdown-toggle" href="#policyConfig" style="margin-top:12px;">Add Policy</a>
+					</div>
+					<br />
+					<br />
+					<br />
+				</div>
+				<div class="col-sm-12" >
+
+					<div class="policy-summary">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th width="13%">Policy Name <span class="caret"></span></th>
+									<th width="13%">Schedule Count <span class="caret"></span></th>
+									<th width="13%">Data Source Type<span class="caret"></span></th>
+									<th width="13%">Data Source <span class="caret"></span></th>
+									<th width="13%">Storage Target Type<span class="caret"></span></th>
+									<th width="13%">Storage Target <span class="caret"></span></th>
+									<!--th width="17%" style="text-align: center">Scheduled Restorations <span class="caret"></span></th>
+									<th width="17%" style="text-align: center">Completed Restorations <span class="caret"></span></th-->
+								</tr>
+							</thead>
+							<tbody>
+								
+								
+								<tr class="activeSummary" ng-repeat="policyList in policies " >
+									<td ><a href='#policyDetails/{{policyList.agtype}}/{{policyList.app_instance_id}}/{{policyList.fname}}/{{policyList.policy_name}}'>{{policyList.policy_name}}</a></td>
+									<td>{{dbSchedules[policyList.fname].length}}</td>
+									<td>{{language[policyList.agtype]}}</td>
+									<td><a href="#dataSourceDetails/{{policyList.agtype}}/{{policyList.app_instance_id}}/{{sourceTypesKeyed[policyList.app_instance_id].shard_id}}">{{policyList.app_instance_id}}</a></td>
+									<td style="text-align:center">{{language[policyList.store_type]}}</td>
+									<td style="text-align:center">{{policyList.store}}</td>
+									<!--td>
+									<div class="row restoration-status">
+										<div class="col-sm-8">
+											<div>
+                                                {{policyList.nextSchedule[0].start_time | date: 'MMM dd,HH:mm' }}
+											</div>
+											<div class="last" ng-if="policyList.nextSchedule[0].start_time != 'N/A' && policyList.nextSchedule[0].end_time != 'N/A' && policyList.nextSchedule[0].end_time - policyList.nextSchedule[0].start_time > 0">
+											     ~
+                                                <span ng-if="policyList.nextSchedule[0].end_time - policyList.nextSchedule[0].start_time < 60">{{policyList.nextSchedule[0].end_time - policyList.nextSchedule[0].start_time | number : 0}} sec</span>
+                                              <span ng-if="policyList.nextSchedule[0].end_time - policyList.nextSchedule[0].start_time > 59 && (policyList.nextSchedule[0].end_time - policyList.nextSchedule[0].start_time)/60 < 60">{{(policyList.nextSchedule[0].end_time - policyList.nextSchedule[0].start_time)/60 | number : 0}} min</span> 
+                                                <span ng-if="policyList.nextSchedule[0].end_time - policyList.nextSchedule[0].start_time > 60 && (policyList.nextSchedule[0].end_time - policyList.nextSchedule[0].start_time)/60 > 59 ">{{(policyList.nextSchedule[0].end_time - policyList.nextSchedule[0].start_time)/3600 | number : 0}} hrs</span> 
+                                                
+											</div>
+										</div>
+										<div class="col-sm-1">
+											<a href="javascript:void(0)" class="status-blue" style="cursor:default">N/A</a>
+
+										</div>
+									</div></td>
+									<td>
+									<div class="row restoration-status">
+										<div class="col-sm-8">
+											<div>
+												 {{policyList.completed[0].start_time | date: 'MMM dd,HH:mm' }}
+											</div>
+											<div class="last" ng-if="policyList.completed[0].start_time != 'N/A' && policyList.completed[0].end_time != 'N/A' && policyList.completed[0].end_time - policyList.completed[0].start_time > 0" >
+											     ~
+                                                <span ng-if="policyList.completed[0].end_time - policyList.completed[0].start_time < 60">{{policyList.completed[0].end_time - policyList.completed[0].start_time | number : 0}} sec</span>
+                                              <span ng-if="policyList.completed[0].end_time - policyList.completed[0].start_time > 59 && (policyList.completed[0].end_time - policyList.completed[0].start_time)/60 < 60">{{(policyList.completed[0].end_time - policyList.completed[0].start_time)/60 | number : 0}} min</span> 
+                                                <span ng-if="policyList.completed[0].end_time - policyList.completed[0].start_time > 60 && (policyList.completed[0].end_time - policyList.completed[0].start_time)/60 > 59 ">{{(policyList.completed[0].end_time - policyList.completed[0].start_time)/3600 | number : 0}} hrs</span>    
+											</div>
+										</div>
+										<div class="col-sm-1">
+											<a href="javascript:void(0)" class="status-green" style="cursor:default">N/A</a>
+
+										</div>
+									</div></td-->
+								</tr>
+							</tbody>
+							<!-- <tfoot>
+								<tr>
+									<td colspan="7">
+									<div class="pager-wrapper">
+										<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"  previous-text="&laquo;" next-text="&raquo;" ></pagination>
+									</div></td>
+								</tr>
+							</tfoot> -->
+						</table>
+
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 20px">
+				<div class="col-sm-12 status-panel">
+					<div class="pull-left" style="margin-bottom: 10px">
+						<h3>Restoration Status</h3>
+					</div>
+					
+				</div>
+				<div class="col-sm-12" >
+				<div ng-include src="'partials/restore-status-data.html'" ></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2 do-alerts-wrapper pull-right">
+			<!-- Alert content added -->
+			<!-- <div ng-include src="'partials/policy-alerts.html'"></div> -->
+			
+            <div ng-include src="'partials/data-source-alerts.html'"></div>
+		</div>
+	</div>
+
+</div>
+<!-- modal popup content2 -->
+<modal title="Summary of Restore Points" class="modal-summary-restore"  visible="showModal">
+	<div class="desc">
+		Data Source: data Source 5 | Policy: ABC | total Restore Points: 18
+	</div>
+	<div class="corner-tabs" style="float:right;margin-top:-17px;">
+		<ul>
+			<li class="active">
+				<a href="javascript:void(0)">Chart</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">Grid</a>
+			</li>
+		</ul>
+	</div>
+	<div class="clearfix"></div>
+	<div class="table1" style="height:450px;overflow-y:scroll;margin-top:24px;border:1px solid #c4c5c6;">
+		<table  class="table table-striped table-condensed table-hover">
+			<thead>
+				<tr style="background:#edefec; height:48px;color:#464646;line-height:28px;font-size:16px;">
+					<th class="points"><a href="javascript:void(0)" ng-click="orderByField='points'; reverseSort = !reverseSort" > Points <span ng-show="orderByField == 'points'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span> </a></th>
+					<th class="createdOn"><a href="javascript:void(0)" ng-click="orderByField='createdOn'; reverseSort = !reverseSort"> Created On<span ng-show="orderByField == 'createdOn'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span> </a></th>
+					<th class="totalSize"><a href="javascript:void(0)" ng-click="orderByField='totalSize'; reverseSort = !reverseSort"> Total Size <span ng-show="orderByField == 'totalSize'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span> </a></th>
+					<th class="checkSum"><a href="javascript:void(0)" ng-click="orderByField='checkSum'; reverseSort = !reverseSort"> check Sum <span ng-show="orderByField == 'checkSum'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span> </a></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="row in restorePointsGrid | orderBy:orderByField:reverseSort">
+					<td><span>{{row.a}}</span></td>
+					<td><span>{{row.b}}</span></td>
+					<td><span>{{row.c}}</span></td>
+					<td><span>{{row.d}}</span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</modal>
+
+<script type="text/ng-template" id="ScheduledRestorationModalContent.html">
+	<div class="modal-header" style="background:#fff !important; border-bottom: 0px;">
+	<!--h4 class="modal-title pull-left"></h4-->
+	<div class="col-sm-10" style="margin-top:10px;"><span class="pull-left">SCHEDULED RESTORATIONS: 4 POINTS</span><span class="pull-right">POLICY: xy_db</span>
+	<div class="clearfix"></div>
+	</div>
+	<div class="col-sm-2"> <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">×</button></div>
+
+	<div class="clearfix"></div>
+	</div>
+
+	<form role="form">
+	<div class="modal-body policyrestoration-modal">
+
+	<div class="row">
+
+	<div class="col-sm-12">
+
+	<div ng-include src="'partials/timeline-control.html'"></div>
+
+	</div>
+	</div>
+	<div class="row">
+	<div class="col-sm-12">
+	<br/>
+
+	<ul>
+	<li class="clearfix"><div>1</div>  <span>4.5 hr</span> <strong>RESTORATION scheduled for</strong> <span>Feb 4,4:45 PM</span> <strong>of</strong> <span>2.5TB</span> <strong>of data to</strong> <span>Target I:[view path]</span></li>
+	<li class="clearfix"><div>2</div>  <span>4.5 hr</span> <strong>RESTORATION scheduled for</strong> <span>Feb 1,4:45 PM</span> <strong>of</strong> <span>2.6TB</span> <strong>of data to</strong>  <span>Target I:[view path]</span></li>
+	<li class="clearfix"><div>3</div>  <strong>DATA</strong> <span class="reification">REIFICATION</span> <strong>scheduled for</strong> <span>Feb 4,4:45 PM</span> <strong>of</strong> <span>2.6TB</span> <strong>of data to</strong>  <span>Target I:[view path]</span></li>
+	<li class="clearfix"><div>4</div> <span class="reification">APP REIFICATION</span> <strong>scheduled for</strong> <span>Feb 4,4:45 PM</span> <strong>of</strong> <span>2.6TB</span> <strong>of data to</strong> <span>Target I:[view path]</span></li>
+	</ul>
+	</div>
+	</div>
+
+	</div>
+	<!--div class="modal-footer">
+	<button class="btn btn-primary" ng-click="ok()">Save</button>
+	<button class="btn  btn-secondary" ng-click="cancel()">Cancel</button>
+	</div-->
+	</form>
+</script>
+<script>
+	$('document').ready(function() {
+		$(".do-res-timeline .dock ul li a").hover(function() {
+			$(".do-res-timeline .dock ul li a").removeClass('active');
+		});
+	}); 
+</script>
+

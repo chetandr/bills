@@ -1,0 +1,68 @@
+<div class="do-restore-points">
+	<div class="do-res-timeline" id="timeline-container">
+		<div class="timeline">
+			<div class="do-timeline-dock">
+				<div class="do-timeline-left">
+					<strong>Oldest&nbsp;</strong>
+				</div>
+				<div class="dock">
+					<div class="carousel-nav clearfix" ng-click="prev()" style="margin-left:-2px;cursor:pointer" ng-show="hasPrevious">
+						<img src="assets/img/left-arrow.png" id="prv-testimonial" alt="PREV" class="pull-left"   />
+					</div>
+					<div id="carousel-wrap" >
+						<ul id="restorePointsPanel" ng-show="restorePointsPanel"  class="restorepoint-list" class="clearfix"">
+						<li class="clearfix" ng-repeat="restorePoint in restorePoints | orderBy: restorePoint"  animate-restore-point >
+						<a href="javascript:void(0)" ng-click="toggleModal($event,$index)"   popover="{{changeTime(restorePoint * 1000)}}" popover-trigger="mouseenter" ><img src="assets/img/timeline-stick.png"></a>
+						<div class="legend ng-hide">{{changeTime(restorePoint * 1000)}}</div>
+						</li>
+						</ul>
+						<div class="scale">
+							<div class="scale-left"></div>
+							<div class="scale-middle"></div>
+							<div class="scale-right"></div>
+						</div>
+						<div class="first-legend" id="first-legend" >{{changeTime(firstLegend*1000)}}</div>
+						<div class="last-legend" id="last-legend" >{{changeTime(lastLegend*1000)}}</div>
+						</div>
+						<div class="carousel-nav-right clearfix" ng-click="next()" style="margin-left:-2px;cursor:pointer" ng-show="restorePointCount[dataSource] >
+							20 && hasNext"> <img src="assets/img/right-arrow.png" id="nxt-testimonial" alt="NEXT" class="pull-right"  />
+					</div>
+				</div>
+				<div class="do-timeline-right">
+					<strong>&nbsp;&nbsp;Most recent</strong>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<script>
+	/*
+	 $('#restorePointsPanel').on('DOMSubtreeModified', function(event) {
+	 $("#restorePointsPanel li a").last().trigger('mouseenter');
+	 $("#restorePointsPanel li a img").last().css('width','30px');
+	 });
+	 $('#prv-testimonial').on('click', function() {
+	 var $last = $('.restorepoint-list li:last');
+	 $last.remove().css({
+	 'margin-left' : '-25px'
+	 });
+	 $('.restorepoint-list li:first').before($last);
+	 $last.animate({
+	 'margin-left' : '0px'
+	 });
+	 });
+
+	 $('#nxt-testimonial').on('click', function() {
+	 var $first = $('.restorepoint-list li:first');
+	 $first.animate({
+	 'margin-left' : '-25px'
+	 }, function() {
+	 $first.remove().css({
+	 'margin-left' : '0px'
+	 });
+	 $('.restorepoint-list li:last').after($first);
+	 });
+	 });
+	 */
+</script>

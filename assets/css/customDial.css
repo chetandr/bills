@@ -1,0 +1,145 @@
+.policy_dial {
+  font-family: 'Titillium Web', sans-serif;
+  color: #574742;
+  font-size: 16px;
+}
+
+/* Main Arc START */
+ .policy_dial path:nth-child(2){
+  fill: #9DCEFF;
+}
+
+.policy_dial path:nth-child(3) {
+  fill: #73ADE6;
+}
+
+.policy_dial path:nth-child(4) {
+  fill: #528FCD;
+}
+
+.policy_dial path:nth-child(5) {
+  fill: #3674B3;
+}
+
+.policy_dial path:nth-child(6) {
+  fill: #1F5C9A;
+}
+
+.policy_dial path:nth-child(7) {
+  fill: #0D4680;
+}
+
+/* Main Arc END */
+
+/* Inner Arc START */
+
+
+.policy_dial path:nth-child(8) {
+  fill: #B8DDFF;
+}
+
+.policy_dial path:nth-child(9) {
+  fill: #8ABAE6;
+}
+
+.policy_dial path:nth-child(10) {
+  fill: #669BCD;
+}
+
+.policy_dial path:nth-child(11) {
+  fill: #487FB3;
+}
+
+.policy_dial path:nth-child(12) {
+  fill: #2E669A;
+}
+
+.policy_dial path:nth-child(13) {
+  fill: #1A4F80;
+}
+/* Inner Arc END */
+
+/* Innermost arc START */
+.policy_dial path:nth-child(14) {
+  fill: #D2EAFF;
+}
+
+.policy_dial path:nth-child(15) {
+  fill: #A1C6E6;
+}
+
+.policy_dial path:nth-child(16) {
+  fill: #7BA7CD;
+}
+
+.policy_dial path:nth-child(17) {
+  fill: #5A89B3;
+}
+
+.policy_dial path:nth-child(18) {
+  fill: #3D6F9A;
+}
+
+.policy_dial path:nth-child(19) {
+  fill: #265680;
+}
+/* Innermost arc END  */
+.policy_dial .background_circle {
+	fill: #FFFFFF;
+}
+.policy_dial .outer_circle {
+	fill: transparent;
+	stroke: #0F0E0E;
+	stroke-width: 5px;
+}
+
+.policy_dial .inner_circle {
+	fill: #090909;
+}
+
+text::-moz-selection { /* Code for Firefox */
+    background: transparent;
+}
+
+.policy_dial .scale rect {
+box-shadow: 10px 10px 5px #888888;
+  fill: #ffffff;
+}
+
+.policy_dial .scale rect:nth-child(1),
+.policy_dial .scale rect:nth-child(19),
+.policy_dial .scale rect:nth-child(20),
+.policy_dial .scale rect:nth-child(30),
+.policy_dial .scale rect:nth-child(31),
+.policy_dial .scale rect:nth-child(37),
+.policy_dial .scale rect:nth-child(38),
+.policy_dial .scale rect:nth-child(43),
+.policy_dial .scale rect:nth-child(44),
+.policy_dial .scale rect:nth-child(48),
+.policy_dial .scale rect:nth-child(49),
+.policy_dial .scale rect:nth-child(52){
+  fill: transparent;
+}
+.policy_dial .pointer1 {
+	fill: #9A9B95;
+}
+
+.policy_dial .pointer2 {
+	fill: #0F0E0E;
+}
+
+.scale .active{
+  font-weight: bold;
+  fill: #FFFFFF;
+}
+
+svg {
+-moz-user-select: none
+}
+
+.policy_time_label.policy_value {
+	font-size: 50px;
+}
+.policy_time_label.time_text {
+	font-size: 20px;
+}

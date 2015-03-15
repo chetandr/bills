@@ -1,0 +1,115 @@
+    html{
+        font-family: helvetica, arial, sans-serif;
+        font-size: 14px;
+    }
+    /* ------- Receipt Tally on Right ------- */
+
+    .receipt_tally{
+        text-align: right;
+        margin-left: auto;
+    }
+
+    /* Misc Print Fixes */
+    table{
+        width: 100%;
+    }
+    h5{
+        text-align: left;
+    }
+
+    th:first-child{
+        text-align: left;
+    }
+
+    /* Imported Properties */
+    .bold{
+        font-weight: bold;
+    }
+
+    /* ------- Receipt ------- */
+    .receipt_tab {
+        margin-bottom: 40px;
+    }
+
+    /* ------- Receipt Header ------- */
+    .receipt_tab .header {
+        padding: 11px 20px 9px;
+        background: #b80e0f;
+    }
+    .receipt_tab .header img {
+        width: 90px;
+    }
+    .receipt_tab .header a {
+        margin-top: 4px;
+        float: right;
+        color: white;
+        font-weight: bold;
+    }
+
+    /* ------- Receipt Summary ------- */
+    h4 {
+        border-bottom: 1px solid #dadada;
+    }
+    .receipt_summary td {
+        vertical-align: top;
+    }
+    .receipt_summary_section.extra {
+        padding-left: 3px;
+    }
+    .receipt_summary_section table {
+        min-height: 150px;
+        padding: 20px;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+    .receipt_summary_section .label {
+        padding-right: 10px;
+        font-weight: bold;
+    }
+
+    /* ------- Receipt Items ------- */
+    .receipt_tab h4 {
+        margin: 0;
+        padding: 20px;
+        font-size: 15px;
+    }
+    .receipt_items .friend td {
+        border-bottom: 1px solid #dadada;
+    }
+    .receipt_items .extra td, .receipt_items .instructions td {
+        border-top: 1px solid #dadada;
+    }
+    .receipt_items th, .receipt_items td {
+        font-size: 13px;
+    }
+    .receipt_items th {
+        padding: 5px 20px;
+        font-weight: normal;
+        border-bottom: #ccc 1px solid;
+    }
+    .receipt_items td {
+        padding: 5px 20px;
+        vertical-align: top;
+    }
+    .receipt_items .small_col {
+        width: 10%;
+    }
+    .receipt_items .qty {
+        text-align: center;
+    }
+    .receipt_items h5 {
+        margin: 0 0 5px;
+        font-size: 15px;
+    }
+    .receipt_items .subtext {
+        color: #666666;
+        line-height: 1.4;
+    }
+
+    a.blue.print-link{
+        display: none;
+    }
+
+    #logo_receipt{
+        margin: 20px 2px;
+    }

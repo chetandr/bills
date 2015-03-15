@@ -1,0 +1,118 @@
+<div class="do-dashboard">
+
+	<div class="row do-dash-stat">
+		<div class="do-dash-container">
+			<div class="col-sm-3 do-fl-panel  policy-first-block">
+				<div class="panel panel-primary">
+					<div class="panel-heading text-center">
+						<!--<i class="ico-dash-recent"></i> -->Most Recent Completed
+					</div>
+					<div class="panel-body">
+						<a href="#policyDetails/{{stats.most_recent_completed_job.dbtype}}/{{stats.most_recent_completed_job.app_instance_id}}/{{stats.most_recent_completed_job.dbname}}/{{dbPolicies[stats.most_recent_completed_job.dbname].policy_name}}"  class="do-big-text-stat">{{(stats.most_recent_completed_job.dbname != undefined) ? dbPolicies[stats.most_recent_completed_job.dbname].policy_name : 'N/A'}}</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 longest-running-bl">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div  class="dash-lf1"><!-- <i class="ico-dash-longrunning"></i> --><span>Next Scheduled Policy</span></div>
+					</div>
+					<div class="panel-body">
+
+						<a href="#policyDetails/{{stats.next_scheduled_job.dbtype}}/{{stats.next_scheduled_job.app_instance_id}}/{{stats.next_scheduled_job.dbname}}/{{dbPolicies[stats.next_scheduled_job.dbname].policy_name}}"  class="do-big-text-stat">{{(stats.next_scheduled_job.dbname != undefined) ? dbPolicies[stats.next_scheduled_job.dbname].policy_name : 'N/A'}}</a>
+						<!--div class="text-right text-more">
+							<a href="javascript:void(0)" class="over-block text-more" data-container="body" data-toggle="popover" data-placement="bottom"
+							data-content="<ul class='nav nav-stacked stacked-default'>
+							<li class='active'>
+							<a href='javascript:void(0);'><span class='pull-right'></span>Top 3 - Longest Running Policies</a>
+							</li>
+							<li class='active'>
+							<a href='javascript:void(0);'><span class='pull-right'></span>Policy 2</a>
+							</li>
+							<li class='active'>
+							<a href='javascript:void(0);'><span class='pull-right'></span>Policy 3</a>
+							</li>
+							<li class='active'>
+							<a href='javascript:void(0);'><span class='pull-right'></span>Policy 4</a>
+							</li>
+							</ul>">More... </a>
+						</div-->
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 longest-running-bl">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div  class="dash-lf2"><!-- <i class="ico-dash-shortrunning"></i> --><span>Most Frequent Policy</span></div>
+					</div>
+					<div class="panel-body">
+
+						<a href="#policyDetails/{{stats.next_scheduled_job.dbtype}}/{{stats.most_frequent_schedule.app_instance_id}}/{{stats.most_frequent_schedule.filename}}/{{dbPolicies[stats.most_frequent_schedule.filename].policy_name}}"  class="do-big-text-stat">{{(stats.most_frequent_schedule.filename != undefined) ? dbPolicies[stats.most_frequent_schedule.filename].policy_name : 'N/A'}}</a>						<!--div class="text-right text-more">
+
+							<a href="javascript:void(0)" class="over-block text-more" data-container="body" data-toggle="popover" data-placement="bottom"
+							data-content="<ul class='nav nav-stacked stacked-default'>
+							<li class='active'>
+							<a href='javascript:void(0);'><span class='pull-right'></span>Top 3 - Shortest Running Policies</a>
+							</li>
+							<li class='active'>
+							<a href='javascript:void(0);'><span class='pull-right'></span>Policy 5</a>
+							</li>
+							<li class='active'>
+							<a href='javascript:void(0);'><span class='pull-right'></span>Policy 6</a>
+							</li>
+							<li class='active'>
+							<a href='javascript:void(0);'><span class='pull-right'></span>Policy 7</a>
+							</li>
+							</ul>">More... </a>
+						</div-->
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 do-fl-panel longest-running-bl">
+				<div class="panel panel-primary do-last-panel">
+					<div class="panel-heading">
+						<div  class="dash-lf3"><!-- <i class="icon_policy_max_versions"></i> --><span>Policy With Max Versions</span></div>
+					</div>
+					<div class="panel-body">
+						<a class="do-big-text-stat" href="#policyDetails/{{stats.max_versions_policy.dbtype}}/{{stats.max_versions_policy.app_instance_id}}/{{stats.max_versions_policy.objectname}}/{{dbPolicies[stats.max_versions_policy.objectname].policy_name}}">{{(stats.max_versions_policy.objectname != undefined) ? dbPolicies[stats.max_versions_policy.objectname].policy_name : 'N/A'}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function() {
+
+		//Popover
+		$('.over-block').popover({
+			html : true,
+			trigger : 'hover'
+		});
+		//popover hack for keep remain open while clicking
+		$('.over-block').click(function() {
+			$(this).popover('hide');
+		});
+		
+		// Error message plugIn
+				toastr.options = {
+					closeButton : true,
+					debug : false,
+					progressBar : true,
+					positionClass : "toast-top-right",
+					preventDuplicates : false,
+					onclick : null,
+					showDuration : "300",
+					hideDuration : "1000",
+					timeOut : "5000",
+					extendedTimeOut : "1000",
+					showEasing : "swing",
+					hideEasing : "linear",
+					showMethod : "fadeIn",
+					hideMethod : "fadeOut"
+				};
+
+
+
+	}); 
+</script>

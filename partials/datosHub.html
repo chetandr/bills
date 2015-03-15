@@ -1,0 +1,47 @@
+<div class="container-fluid do-metadata" ng-controller="datosHubCtrl">
+<div class="selected-arrow datos-hub-active"></div>
+<div class="col-sm-12">
+<div class="row do-hub-logo">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8"> 
+    <!--h1 class="page-title"><span class="fontColor-orange">Datos</span><span class="fontColor-gray">Hub</span></h1--> 
+    <a href="#datosHub" class="datosHub-logo"></a> </div>
+  <div class="col-sm-2"></div>
+</div>
+<div class="clearfix mt-20"></div>
+<div class="row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8">
+    <form name="datOsHubSearch">
+      <div class="input-group add-on">
+        <input type="text" class="form-control" placeholder="Search Data, Metadata, Policies" name="srch-term" id="srch-term" ng-model="search">
+        <div class="input-group-btn">
+          <button ng-click="searchSubmit()" class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-sm-2"></div>
+</div>
+<div class="clearfix mt-20"></div>
+<div class="clearfix mt-20"></div>
+<div class="row" ng-show="showSearchData">
+<div class="col-sm-2"></div>
+<div class="col-sm-8"  >
+<tabset>
+<tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+<ul>
+<li ng-repeat="content in tab.content">
+  <h4>{{content.heading}}</h4>
+  <a href="{{content.href}}">{{content.href}}</a>
+  <p>{{content.content}}</p>
+</li>
+<ul>
+</tab>
+</tabset>
+</div>
+<div class="col-sm-2"></div>
+</div>
+</div>
+<div class="col-sm-3"></div>
+</div>

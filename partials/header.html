@@ -1,0 +1,124 @@
+<style>
+.modal-dialog {
+	width: 1100px!important;
+}
+</style>
+<div class="do-container">
+  <div class="navbar do-header" role="navigation">
+    <div class="container-fluid do-menu">
+      <div class="row do-menu-panel">
+        <div class="col-sm-4">
+          <ul class="do-hdnav-icons">
+            <li> <a href='#policyConfig'  class="ico-policy tooltip-popup" data-toggle="tooltip" data-placement="bottom" border="0"></a><span class="menu-text">Policy Maker</span></li>
+            <li> <a href='#restorePoints' class="ico-restore tooltip-popup" data-toggle="tooltip" data-placement="bottom"  border="0"></a><span class="menu-text">Time Travel</span></li>
+            <li> <a href='#datosHub' class="ico-metadata tooltip-popup" data-toggle="tooltip" data-placement="bottom"  border="0"></a><span class="menu-text">DatosHub</span></li>
+          </ul>
+        </div>
+        <div class="col-sm-3"> <a href="#dashboard" class="do-logo"></a> </div>
+        <div class="col-sm-3">
+          <form class="top-nav-search clearfix">
+            <input type="text" name="search-input" id="search-input" class="top-nav-searchfield" placeholder="Search anything" />
+            <input type="submit"   name="search-btn" id="search-btn" class="ico-search" value="" />
+          </form> 
+        </div>
+        <div class="col-sm-2 pull-right do-header-profile">
+          <ul class="do-user-action nav navbar-nav  hidden-xs hidden-sm hidden-md pull-right" >
+            <!--li class="DB-links"> <a href='#dashboard'  class="ico-coins"></a>
+              <div class="db-dropdown"><img width="230" height="135" src="assets/img/DB-dummy.jpg" /></div>
+            </li-->
+			<li> 
+
+             <a  class="ico-settings" href="javascript:void(0)"  ng-click="setTimezone();"  ng-controller="headerConfigCtrl"></a>
+
+            </li>
+            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="cursor: default">Welcome User <img src="assets/img/user.jpg" height="30px" width="30px" alt="test" class="img-circle"> <!--span class="caret"></span--></a>
+              <!--ul class="dropdown-menu" role="menu">
+                <li> <a href="#">Profile</a> </li>
+                <li> <a href="#">My Account</a> </li>
+                <li> <a href="#">Settings</a> </li>
+                <li> <a href="#">Logout</a> </li>
+              </ul-->
+            </li>
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="timezoneModalContent.html">
+	<div class="modal-header">
+	<h4 class="modal-title pull-left">Timezone Settings</h4>
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">×</button>
+	<div class="clearfix"></div>
+	</div>
+
+	<form role="form">
+	<div class="modal-body timezone-modal">
+
+	<div class="row">
+	<label class="col-sm-12">Select your Time Zone</label>
+	<br><br>
+	<div class="col-sm-12">
+	<div class="dropdown source-type-dropdown ds-panel-cont">
+	<input type="hidden" class="timeZoneName" ng-model="timeZoneName" value="{{timeZoneName}}"   >
+	<a class="btn btn-default dropdown-toggle timezone-dropdown"><span class="pull-left">{{timeZoneName}}</span><b class="caret pull-right"></b></a>
+	<ul class="dropdown-menu" role="menu">
+	<!--li> <a>(GMT - 08:00) United States (Los Angeles) Time</a> </li-->
+	<li ng-repeat="timeZone in timeZones track by $index" > <a ng-click="changeZoneName()">{{timeZone.zoneName}}</a> </li>
+	</ul>
+	</div>
+	<br /><br />
+	</div>
+	</div>
+	</div>
+	<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="ok()">Save</button>
+	<button class="btn  btn-secondary" ng-click="cancel()">Cancel</button>
+	</div>
+	</form>
+</script>
+<script>
+	$('document').ready(function() {
+		/*$('.ico-search').click(function(){
+			//$('.top-nav-searchfield').focus();
+			return false;
+		});
+		
+		$('.DB-links').hover(function(){
+			$('.db-dropdown').css('display', 'block');
+		}, function(){
+			$('.db-dropdown').css('display', 'none');
+		}
+		);*/
+ 	});
+ 	
+ 	$('.do-logo').on('click', function(){
+ 		$('.do-menu-vertical ul.level1 li').removeClass('selected');
+ 		$('.do-hdnav-icons li').removeClass('header-nav-selected');
+ 		$('.do-menu-vertical ul.level1 li:first').addClass('selected');
+ 	});
+ 	
+ 	
+	$.each($(".do-hdnav-icons li"),function(){
+ 		
+ 		$(this).on("click", function() {
+ 			
+ 			$(".do-hdnav-icons li").removeClass('header-nav-selected');
+			$('.do-menu-vertical ul.level1 li').removeClass('selected');
+ 			
+ 		if(!$(this).hasClass('header-nav-selected')){
+ 			$(this).addClass('header-nav-selected');
+ 		} else if($(this).hasClass('header-nav-selected')){
+ 			$(this).removeClass('header-nav-selected');
+ 		}
+ 		
+ 		});
+ 		
+ 	});
+	
+ 	
+ 	$('.tooltip-popup').tooltip()		
+</script>

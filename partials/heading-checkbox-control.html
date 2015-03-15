@@ -1,0 +1,25 @@
+<div class="do-dashboard">
+<div class="row">
+	<div class="col-sm-6 do-dash-hd">
+		<h1>{{pageHeading}}</h1>
+	</div>
+	<div class="col-sm-6">
+
+		<div class="form-group checkbox-panel pull-right">
+			<div class="checkbox checkbox-primary checkbox-inline">
+				<input type="checkbox" id="inlineCheckbox1" class="dsType" ng-checked="hasMongo" ng-click="changeDataSource()" value="mongo" disabled>
+				<label for="inlineCheckbox1"> MongoDB</label>
+			</div>
+			<div class="checkbox checkbox-primary checkbox-inline">
+				<input type="checkbox" id="inlineCheckbox2" class="dsType"  ng-checked="hasCassandra" ng-click="changeDataSource()" value="cassandra" disabled>
+				<label for="inlineCheckbox2"> Cassandra</label>
+			</div>
+			<div class="checkbox checkbox-primary checkbox-inline">
+				<input type="checkbox" id="inlineCheckbox3" class="dsType" ng-checked="hasHadoop" ng-click="changeDataSource()" value="hadoop" disabled>
+				<label for="inlineCheckbox3"> Hadoop</label>
+			</div>
+		</div>
+
+	</div>
+</div>
+</div>

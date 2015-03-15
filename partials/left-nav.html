@@ -1,0 +1,90 @@
+<div class="nav sidebar sidebar-menu-collapsed sidebar do-menu-vertical"> <!-- <a href='#' id='justify-icon'> <span class='glyphicon glyphicon-align-justify'></span>
+  <div class="clearfix"></div>
+  </a> -->
+  <ul class='level1'>
+    <!-- <li class="dropdown-submenu sl selected"><a class='expandable dashboard-menu' href='#home'><span class="ico-home"></span> <span class='expanded-element do-menu-lbl'>Home</span> </a> <span class="left-nav-slide">Home</span> </li> -->
+    <li class="dropdown-submenu sl selected"> <a class='expandable dashboard-menu' href='#dashboard'> <span class="ico-dashboard"></span> <span class='expanded-element do-menu-lbl'>Dashboard</span> </a> <span class="left-nav-slide">Dashboard</span> </li>      
+    <li class="dropdown-submenu sl"> <a class='expandable'  href='#configurations'> <span class="ico-config"></span> <span class='expanded-element do-menu-lbl'>Workflow</span> </a> <span class="left-nav-slide">Workflows</span> </li>
+    <li class="dropdown-submenu sl"> <a class='expandable'  href='#dataSourceSummary'> <span class="ico-data-sources"></span> <span class='expanded-element do-menu-lbl'>Data Sources</span> </a> <span class="left-nav-slide">Data Sources</span> </li>
+    <li class="dropdown-submenu sl"> <a class='expandable'  href='#policySummary'> <span class="ico-policies"></span> <span class='expanded-element do-menu-lbl'>Policies</span> </a> <span class="left-nav-slide">Policies</span> </li>
+    <li class="dropdown-submenu sl"> <a class='expandable'  href="#storageTarget"> <span class="ico-storage-target"></span> <span class='expanded-element do-menu-lbl'>Storage Target</span> </a> <span class="left-nav-slide">Storage Target</span> </li>
+    <!--li class="dropdown-submenu sl">
+			<a class='expandable'  href="#metadata"> <span class="ico-meta-mgmt"></span> <span class='expanded-element do-menu-lbl'>Metadata</span> </a>
+																																					 
+			<span class="left-nav-slide">Metadata</span>
+		</li-->
+    <li class="dropdown-submenu s1 report-nav-menu"> <a class='expandable'  href="#reports"><span class="ico-reports"></span><span class='expanded-element do-menu-lbl'>Reports</span> </a>
+      <ul id="appendToExpand" class="dropdown-menu  do-drop-menu report-left-nav">
+        <li class="report-label"><a href="#reportsView">&nbsp; Reports</a></li>
+        <li class="view-label"><span class="icon"></span><a href="#reportsView">View</a></li>
+        <li class="export-label"><span class="icon"></span><a href="#reports">Export</a></li>
+        <li class="email-label"><span class="icon"></span><a href="#reports">Email</a></li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu sl report-acc open-reports LNA-up"> <a class='expandable'  href='#'> <span class="ico-reports"></span> <span class='white-clr'>Reports</span> </a>
+      <ul class="report-expand">
+        <li class="view-label"><span class="icon"></span><a href="#reportsView">View</a></li>
+        <li class="export-label"><span class="icon"></span><a href="#reports">Export</a></li>
+        <li class="email-label"><span class="icon"></span><a href="#reports">Email</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<script>
+$(document).ready(function() {
+	//function leftNavHover() {
+	/*$('.dropdown-submenu').hover(function(){
+		$(this).children( ".left-nav-slide" ).css('display', 'block');
+	}, function(){
+		$(this).children( ".left-nav-slide" ).css('display', 'none');
+	});*/
+	//};
+	//leftNavHover();
+	
+	$('.report-nav-menu').css('display', 'block');
+	$('.report-acc').css('display', 'none');	
+		
+	$('.do-menu-vertical ul.level1 li a').click(function(){
+		$('.do-menu-vertical ul.level1 li').removeClass('selected');
+		$(this).closest('li').addClass('selected');
+		$(this).parents('li').addClass('selected');
+		$(".do-hdnav-icons li").removeClass('header-nav-selected');
+		
+		
+	});
+	
+	$('.report-acc').click(function(){
+		$(this).removeClass('selected');
+	});
+	
+	
+	jQuery(document).ready(function($) {
+		$('.report-expand').hide();
+		
+		
+		$('.do-menu-vertical .report-acc').click(function(){
+			$('.do-menu-vertical ul.level1 li').removeClass('selected');
+		      $this = $(this);
+		      $target =  $('.report-expand');
+		      
+		      if($this.hasClass('LNA-up')){
+	      		 $this.removeClass('LNA-up');
+				 $this.addClass('LNA-down');
+				  $target.slideDown();
+		         
+		         
+		      }else if ($this.hasClass('LNA-down'))
+		      {		        
+		         $this.removeClass('LNA-down');
+		         $this.addClass('LNA-up');
+		         $target.slideUp('slow');
+		      };
+		  	
+		});
+	});
+		
+	
+	 
+});	
+</script> 
+<script src="assets/js/scripts.js"></script> 

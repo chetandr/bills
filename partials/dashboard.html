@@ -1,0 +1,103 @@
+<div cg-busy="{promise:allLoader,message:'Loading..'}" class="spinner"></div>
+<div class="container-fluid do-dashboard status-panel">
+	<div class="row" >
+		<div class="col-sm-10">
+			<div ng-include src="'partials/heading-checkbox-control.html'"></div>
+            <div class="panel panel-default" style="margin-top:20px" ng-show="sourceTypes==undeifned || sourceTypes.length == 0">
+                <div class="panel-heading">Getting Started</div>
+                <div class="panel-body">
+                    Datos IO is recovery management (Time Travel) software for next generation enterprise data center environments of Big Data, NoSQL and Cloud platforms. To get started, add a data source, add storage target for versioned data and define a versioning policy. Press the "Get Started" button for this workflow.
+                    
+                    <ul class="nav nav-pills" style="margin-top:10px">
+                        <li role="presentation" class="active"><a href="#/configurations">Get Started</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div ng-hide="sourceTypes==undeifned || sourceTypes.length == 0">
+			<div class="row do-dash do-dash-stat" >
+				<div class="do-dash-container">
+					<div class="col-sm-4 do-fl-panel do-dash-lf-panel">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<div class="dash-lf"><i class="ico-dash-datasource"></i><span style="margin-top:3px;">Data Sources</span></div>
+							</div>
+							<div class="panel-body text-center">
+								<a href="#dataSourceSummary" class="do-big-text-dash over-block">{{sourceTypes.length}}</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4 data-mgmt-policy-block" >
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<div class="dash-lf"><i class="ico-dash-policy"></i><span  style="margin-top:3px;">Versioning Policies</span></div>
+							</div>
+							<div class="panel-body">
+								<div class="text-center" ng-show="policyCount > 0">
+									<a  href="#policySummary"  class="do-big-text-dash">{{policyCount}}</a>
+								</div>
+                                
+									<div class="panel-body text-center" ng-show="policyCount == 0" style="height:100%;padding:12%">
+									<ul class="nav nav-pills">
+                                        <li role="presentation" class="active" style="width:100%"><a href="#/policyConfig">Create Policy</a></li>
+                                    </ul>
+								</div>
+								
+								<div class="col-sm-6">
+									<!--ul class="do-dash-list details">
+										<li class="clearfix">
+											<i class="ico-completed"></i>
+											<label>Scheduled</label>
+											<a href="#">{{scheduledCount}}</a>
+										</li>
+									</ul-->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4 do-fl-panel storage-block storage-targets">
+						<div class="panel panel-primary do-last-panel" >
+							<div class="panel-heading">
+								<div  class="dash-lf"><i class="ico-dash-storage"></i><span  style="margin-top:3px;">Storage Targets</span></div>
+							</div>
+							<div class="panel-body text-center" ng-show="storageTargets.length > 0">
+								<a class="do-big-text-dash over-block">{{storageTargets.length}}</a>
+							</div>
+                             <div class="panel-body text-center" ng-show="storageTargets.length == 0" style="height:100%;padding:15% 12%">
+									<ul class="nav nav-pills">
+                                        <li role="presentation" class="active" style="width:100%"><a href="#/configurations">Configuration Workflow</a></li>
+                                    </ul>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<h2>Policy Statistics</h2>
+            <div>
+			<div ng-include src="'partials/policy-statistics.html'" ></div>
+            </div>
+			<h2>Data  Statistics</h2>
+            <div>
+			<div ng-include src="'partials/data-statistics.html'" ></div>
+            </div>
+                </div>
+			<!-- /.row -->
+		</div>
+		<div class="col-sm-2 do-alerts-wrapper pull-right">
+
+			<!-- Alert content added -->
+			<div ng-include src="'partials/data-source-alerts.html'"></div>
+			<!-- Recent task added -->
+			<!-- <div ng-include src="'partials/recent-task.html'"></div> -->
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function() {
+
+		// set window height and width dynamically
+		var winWidth = $(document).width();
+		var winHeight = $(document).height();
+		$('.do-dash-alerts-task').height(winHeight - 63);
+
+	}); 
+</script>

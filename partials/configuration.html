@@ -1,0 +1,100 @@
+<div class="do-configuration">
+	<div class="row">
+		<div class="col-sm-10">
+			<div ng-include src="'partials/heading-checkbox-control.html'"></div>
+
+			<div class="row">
+				<div class="col-sm-12" >
+					<br>
+					<div class="do-tab-container policy-tab config-tab">
+
+						<tabset justified="true">
+							<tab heading="Configuration">
+								<div class="row tab-frm">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="row">
+
+												<div class="config-btn-group">
+													<button type="button" class="btn btn-primary dropdown-toggle btn-txt pull-left" ng-click="open('md')" ng-class="{green: sourceTypes!=undefined && sourceTypes.length>0}">
+														Add Data Source
+													</button>
+
+												</div>
+												<div class="config-btn-group">
+													<span class="arrow-right"></span>
+												</div>
+												<div class="config-btn-group">
+													<div class="clearfix"></div>
+													<button type="button" class="btn btn-primary dropdown-toggle btn-txt  pull-left" ng-click="open2('md')" ng-click="open('md')" ng-class="{green: storageTargets!=undefined && storageTargets.length>0}">
+														Add Storage Target
+													</button>
+												</div>
+												<div class="config-btn-group">
+													<span class="arrow-right"></span>
+												</div>
+												<div class="config-btn-group">
+													<div class="clearfix"></div>
+													<button type="button" class="btn btn-primary dropdown-toggle btn-txt  pull-left" ng-click="openCreatePolicy('/policyConfig')" ng-class="{green: policyCount!=undefined && policyCount>0}">
+														Create a Policy
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="clearfix"></div>
+								</div>
+								<br>
+
+							</tab>
+							<tab heading="Versioning Policy" disabled="true">
+								<br>
+								<br>
+								<br>
+							</tab>
+							<tab heading="Retrieval" disabled="true">
+								<br>
+								<br>
+								<br>
+							</tab>
+
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="col-sm-2 do-alerts-wrapper pull-right">
+            <div ng-include src="'partials/data-source-alerts.html'"></div>
+        </div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="addDataSourceModal.html">
+	<div ng-include src="'partials/add-data-source.html'"></div>
+</script>
+
+<script type="text/ng-template" id="addStorageTargetModal.html">
+	<div ng-include src="'partials/add-storage-target.html'"></div>
+</script>
+
+<script>
+	$('document').ready(function() {
+		// Error message plugIn
+		toastr.options = {
+			closeButton : true,
+			debug : false,
+			progressBar : true,
+			positionClass : "toast-top-right",
+			preventDuplicates : false,
+			onclick : null,
+			showDuration : "300",
+			hideDuration : "1000",
+			timeOut : "5000",
+			extendedTimeOut : "1000",
+			showEasing : "swing",
+			hideEasing : "linear",
+			showMethod : "fadeIn",
+			hideMethod : "fadeOut"
+		};
+	}); 
+</script>

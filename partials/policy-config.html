@@ -1,0 +1,808 @@
+<div class="do-policy-config pull-left">
+	<div cg-busy="{promise:allLoader,message:'Loading..'}" class="spinner"></div>
+	<div class="row" style="margin-top:0px;margin-left:0px" >
+		<form class="form-horizontal" role="form" name="policyConfig" novalidate >
+			<div class="selected-arrow policy-maker-active"></div>
+			<div ng-include src="'partials/heading-checkbox-control.html'"></div>
+			<div class="panel panel-default" style="margin-top:20px" ng-show="sourceTypes==undefined || sourceTypes.length == 0 || storageTargets==undefined || storageTargets.length <= 0">
+				<div class="panel-heading">
+					Environment Not Configured
+				</div>
+				<div class="panel-body">
+					You have not added a data source or a storage target. Click the button below to go through the configuration.
+					<ul class="nav nav-pills" style="margin-top:10px">
+						<li role="presentation" class="active">
+							<a href="#/configurations">Configuration Workflow</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="policy-config" ng-hide="sourceTypes==undefined || sourceTypes.length == 0 || storageTargets==undefined || storageTargets.length <= 0">
+				<!-- Container for policy-config-->
+				<div class="row" >
+					<div class="col-sm-12 ">
+						<div class="policy-tab-steps">
+							<span>1</span><strong>Define Policy</strong>
+							<div class="clearfix"></div>
+						</div>
+						<div class="clearfix"></div>
+						<a href="javascript:void(0)" class="over-block text-more pull-right" data-container="body" data-toggle="popover" data-placement="bottom"
+						data-content="<ul class='nav nav-stacked stacked-default' style='width:200px;'>
+						<li class='active  clearfix'>
+						<a href='javascript:void(0);'>Tip will be here</a>
+						</li>
+						<li class='active  clearfix'>
+						<a href='javascript:void(0);'>Tip will be here</a>
+						</li>
+						<li class='active  clearfix'>
+						<a href='javascript:void(0);'>Tip will be here</a>
+						</li>
+						<li class='active  clearfix'>
+						<a href='javascript:void(0);'>Tip will be here</a>
+						</li>
+						</ul>">Tips</a>
+						<!--<div class="pull-right" style="margin:-1px 20px 0 0;">
+						<!--span class="asterisk">*</span--><!--<span class="mandatory">All fields are mandatory</span>
+						</div> -->
+						<div class="do-tab-container policy-tab">
+							<tabset justified="true">
+								<tab heading="Data Policy">
+									<div class="row tab-frm">
+										<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl">
+													Data source type:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="hidden" class="sourceTypeVal" ng-model="sourceTypeVal" value="{{sourceTypeVal}}" required="true">
+														<a class="btn btn-default dropdown-toggle" ><span class="pull-left">{{language[sourceTypeVal]}}</span><b class="caret" ></b></a>
+														<ul class="dropdown-menu" role="menu">
+															<li  ng-repeat="sourceType in sourceTypes" ng-value="{{sourceType.dataSourceType}}">
+																<a ng-click="changeSourceType()">{{language[sourceType.agtype]}}</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="row tab-frm">
+												<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl ds-panel-cont">
+													Cluster name:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="hidden" class="clusterNameVal" ng-model="clusterNameVal" value=""   >
+														<a class="btn btn-default dropdown-toggle"><span class="pull-left">{{cluster[0]}}</span> <b class="caret" ></b></a>
+														<ul class="dropdown-menu" role="menu">
+															<li  ng-repeat="clusterNameItem in cluster">
+																<a ng-click="changeClusterName()">{{clusterNameItem}}</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+											
+										
+										<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl ds-panel-cont"></div>
+												<div class="col-sm-6"></div>
+											</div>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+									<br>
+									<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl ds-panel-cont">
+													Management object:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="hidden" class="sourceTypeVal" ng-model="sourceTypeVal" value="{{dataTypeVal}}" required="true">
+														<a class="btn btn-default dropdown-toggle" ><span class="pull-left">{{dataTypeVal}} </span><b class="caret" ></b></a>
+														<ul class="dropdown-menu managementObj" role="menu">
+															<li  ng-repeat="data in dataSourcelist | orderBy:'fname':false" ng-value="{{data.fname}}">
+																<a ng-click="changeDataType()">{{data.fname}}</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									<div class="col-sm-4">
+											<div class="row" style="margin-left: -30px">
+												<div class="col-sm-6 do-frm-lbl">
+													Policy name:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="text" class="form-control" id="policy_name" style="width:160px" name= "policy_name" ng-model="policy_name" value="{{policyName}}" focus-me="shouldBeOpen"  required="true" style/>
+													</div>
+												</div>
+											</div>
+										</div>
+								
+										
+										
+										<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl ds-panel-cont" style="margin-left: -5px;width: auto;">
+													Storage target:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="hidden" class="storageName" ng-model="storageName" id="storageName" value="{{storageName}}"  >
+														<input type="hidden" class="storageTypeVal" ng-model="storageTypeVal" id="storageTypeVal" value="{{storageTypeVal}}"  >
+														<a class="btn btn-default dropdown-toggle" ><span class="pull-left">{{storageName}} </span><b class="caret" ></b></a>
+														<ul class="dropdown-menu managementObj" role="menu">
+															<li  ng-repeat="storageTarget in storageTargets">
+																<a ng-click="changeStorageTarget()" >{{storageTarget.store_name }}</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</tab>
+								<tab heading="Data + App Policy" disabled="true">
+									<div class="row  tab-frm">
+										<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl">
+													Policy name:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="text" class="form-control" id="policy_name" ng-model="policy_name"  value="{{policyName}}" focus-me="shouldBeOpen"  required="true" />
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--div class="col-sm-4">
+										<div class="row">
+										<div class="col-sm-6 do-frm-lbl ds-panel-cont">
+										App category:
+										</div>
+										<div class="col-sm-6">
+										<div class="dropdown source-type-dropdown ds-panel-cont">
+										<input type="hidden" class="appCatVal" ng-model="appCatVal" value=""   >
+										<a class="btn btn-default dropdown-toggle"><span class="dropdown-select" ng-hide="dropdownSelect2">- select -</span><span class="pull-left">{{appCatItem}} </span> <b class="caret" ></b></a>
+										<ul class="dropdown-menu" role="menu">
+										<li  ng-repeat="appCatItem in appCatItems" ng-value="{{appCatItem.appCatVal}}">
+										<a ng-click="changeAppCategory()">{{appCatItem.appCatVal}}</a>
+										</li>
+										</ul>
+										</div>
+										</div>
+										</div>
+										</div-->
+										<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl ds-panel-cont">
+													Cluster name:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="hidden" class="clusterNameVal" ng-model="clusterNameVal" value=""   >
+														<a class="btn btn-default dropdown-toggle"><span class="dropdown-select" ng-hide="dropdownSelect">- select -</span><span class="pull-left"></span> <b class="caret" ></b></a>
+														<ul class="dropdown-menu" role="menu">
+															<li  ng-repeat="clusterNameItem in clusterNameItems" >
+																<a ng-click="changeClusterName()">{{clusterNameItem.clusterNameVal}}</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl">
+													App metadata path:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="text" class="form-control" value="" />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+									<br>
+									<div class="row  tab-frm">
+										<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl">
+													Data source type:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="hidden" class="sourceTypeVal" ng-model="sourceTypeVal" value="{{sourceTypeVal}}"   >
+														<a class="btn btn-default dropdown-toggle" ><span class="pull-left">{{language[sourceTypeVal]}}</span><b class="caret" ></b></a>
+														<ul class="dropdown-menu" role="menu">
+															<li  ng-repeat="sourceType in sourceTypes" ng-value="{{sourceType.dataSourceType}}">
+																<a ng-click="changeSourceType()">{{language[sourceType.agtype]}}</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl ds-panel-cont">
+													Management object:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="hidden" class="sourceTypeVal" ng-model="sourceTypeVal" value="{{dataTypeVal}}"   >
+														<a class="btn btn-default dropdown-toggle" ><span class="pull-left">{{dataTypeVal}} </span><b class="caret" ></b></a>
+														<ul class="dropdown-menu managementObj" role="menu">
+															<li  ng-repeat="data in sourceDataTypes | orderBy:'fname':false" ng-value="{{data.fname}}">
+																<a ng-click="changeDataType()">{{data.fname}}</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="row">
+												<div class="col-sm-6 do-frm-lbl ds-panel-cont">
+													Storage target:
+												</div>
+												<div class="col-sm-6">
+													<div class="dropdown source-type-dropdown ds-panel-cont">
+														<input type="hidden" class="storageTypeVal" ng-model="storageTypeVal" value="{{storageTypeVal}}"  >
+														<a class="btn btn-default dropdown-toggle" ><span class="pull-left">Select </span><b class="caret" ></b></a>
+														<ul class="dropdown-menu managementObj" role="menu">
+															<li  ng-repeat="data in storageTarget">
+																<a>{{data.storageTargetVal}}</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								</tab>
+							</tabset>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-7 policy-config-type" style="display:none;">
+						<div class="row">
+							<div class="col-sm-5 auto-col">
+								Policy Type:
+							</div>
+							<div class="col-sm-7">
+								<div class="radio first">
+									<label>
+										<input type="radio" name="configuration-type" checked ng-click="toggleVisibility(0)">
+										Basic (Data only)</label>
+								</div>
+								<div class="collapsed" ng-show="modelsArray[0].visible"></div>
+								<div class="radio">
+									<label>
+										<input type="radio" name="configuration-type" ng-click="toggleVisibility(1)" disabled="">
+										Composite (Application and Data)</label>
+								</div>
+								<div class="collapsed" ng-show="modelsArray[1].visible">
+									<div class="row ipt-file-wrapper">
+										<div class="col-sm-6 txt-label">
+											Data Source:
+										</div>
+										<div class="col-sm-6">
+											<div class="do-choosefile-panel">
+												<div class="fileUpload btn btn-primary" ng-click="openrecoveryPanel()">
+													<span></span>
+													<input id="uploadBtn" type="file" class="upload" />
+												</div>
+												<input id="uploadFilePolicyConfig" placeholder="Choose File" disabled="disabled" />
+											</div>
+										</div>
+									</div>
+									<div class="row ipt-file-wrapper">
+										<div class="col-sm-6 txt-label">
+											Appication Source:
+										</div>
+										<div class="col-sm-6">
+											<div class="dropdown source-type-dropdown">
+												<a class="btn btn-default dropdown-toggle" >Select <b class="caret" ></b></a>
+												<ul class="dropdown-menu" role="menu">
+													<li>
+														<a>Dummy1</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row spacer"></div>
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="policy-tab-steps policy_info ">
+							<span>2</span><strong>Set Versioning Frequency </strong>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="policy-tab-steps policy_info ">
+							<span>3</span><strong>Add Another Schedule</strong>
+						</div>
+					</div>
+					<div class="col-sm-2" style="margin-left:-370px">
+						<div class="do-schedule-wrapper">
+							<div class="do-policy-alerts" ng-show="dbSchedules[dataSource].length">
+								<h1><i><span class="badge alert-count">{{dbSchedules[dataSource].length}}</span></i><div class="clearfix"></div></h1>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<div class="row">
+					<div class="col-sm-6"></div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6"></div>
+				</div>
+				<div class="row do-policy-section">
+					<div class="col-sm-4">
+						<!-- POLICY DIAL  -->
+						<input class="policy_dial_input">
+						<input type="hidden" ng-model="recoveryTime" id="recovery_time" value="15"  />
+						<input type="hidden" ng-model="time_unit" id="time_unit" value="Minutes"  />
+					</div>
+					<div class="col-sm-8">
+						<span id="schedule-indicate" style="display:none"></span>
+						<div class="col-sm-12 do-fl-panel">
+							<div id="policy_info" class="panel panel-primary" >
+								<div class="panel-body">
+									<div ng-show="showRecoveryData" class="retention-cost">
+										<button type="button" class="close" ng-click="resetRecoveryFileds()" ng-show="showSuccessMsg">
+											×
+										</button>
+										<div class="purplecoat-mid" ng-show="showSuccessMsg">
+											<p>
+												The schedule, {{schedule_name}} for policy, <a href='#/policyDetails/{{sourceTypeVal}}/{{app_instance_id}}/{{dataTypeVal}}/{{policy_name}}'>{{policy_name}}</a> has been created.
+											</p>
+											<p>
+												<a href="javascript:void(0)" type="button" class="btn btn-primary btn-purplecoat" ng-click="addAnotherSchedule()"> Add a schedule </a>
+												&nbsp;&nbsp; <a href="javascript:void(0)" type="button" class="btn btn-primary btn-purplecoat" ng-click="resetRecoveryFileds()"> Create new policy</a>
+											</p>
+										</div>
+										<div ng-show="showSuccessMsg" class="purplecoat-msg"></div>
+									</div>
+							<div class="row">
+								<div class="col-sm-8">
+
+									<div class="form-group">
+										<label class="col-sm-5 control-label">Schedule name:</label>
+										<div class="col-sm-7" style="padding-right: 131px;">
+											<input type="text" class="form-control" required="true" id="schedule_name" ng-model="schedule_name" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-5 control-label">Schedule start date: </label>
+										<div class="col-sm-7" style="padding-right: 133px">
+										<input type="hidden" value="{{policyDate | date : 'yyyy/MM/dd'}}" ng-model="systemDate" >
+											<p class=" input-group" >
+												<input type="hidden" id="policyDateApi" ng-model="policyDateApi" value="{{policyDate | date : 'yyyy/MM/dd'}}"  >
+												<input type="text" class="form-control well well-sm" datepicker-popup="{{format}}" ng-model="policyDate" show-weeks="true" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" close-text="Close" required="true"/>
+												<span class="input-group-btn">
+													<button type="button" class="btn btn-default" ng-click="open($event)">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button> </span>
+											</p>
+										</div>
+										<div class="1"></div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-5 control-label">Schedule start time: </label>
+
+										<div class="col-sm-7">
+										<input type="hidden" id="systemTime" value="{{startTimeHrs}}:{{startTimeMin}}" ng-model="systemTime" >
+											<div class="scheduledTimeHrs">
+												<input type="text" id="hours_list"  class="form-control" value="" min="1" max="12" step="1" ng-model="startTimeHrs" required="true" />
+											</div>
+											<div class="scheduledTimeMin">
+												<input type="text" id="minutes_list"  class="form-control" value="" min="1" max="60" step="1" placeholder="Min"  ng-model="startTimeMin" required="true"/>
+											</div>
+											<div class="dropdown source-type-dropdown scheduledTimeFormat" >
+												<input type="hidden" class="sourceTypeVal" ng-model="startTimeFormat" id="startTimeFormat"  value="{{startTimeFormat}}"   >
+												<a class="btn btn-default dropdown-toggle scheduledTimeTag" style="width:71px;" id="time_unit"><span class="pull-left">{{startTimeFormat}}</span> <b class="caret pull-right" style="margin-top:10px;"></b></a>
+												<ul class="dropdown-menu dropdown-menu-TimeTag" role="menu">
+													<li >
+														<a ng-click="changestartTimeFormat('AM')">AM</a>
+													</li>
+													<li >
+														<a ng-click="changestartTimeFormat('PM')">PM</a>
+													</li>
+												</ul>
+												<!--span class="timezone"><a href="javascript:void(0);" ng-click="setTimezone()">{{sysTimeZone}}</a></span-->
+											</div>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-5 control-label"></label>
+										<div class="col-sm-7" style="padding-right: 0px">
+											Timezone : {{TimeZoneName}}
+										</div>
+										<div class="col-sm-5"></div>
+									</div>
+
+									<div class="form-group">
+										<label for="inputEmail3" class="col-sm-5 control-label">Data retention period:</label>
+										<div class="col-sm-7">
+											<div class="form-group radio-panel pull-left" style="margin-left:0px;">
+												<div class="radio radio-primary radio-inline">
+													<input type="radio" id="inlineradio5" name="dataRetentionRadios" ng-model="dataRetentionType" value="Hours">
+													<label for="inlineradio5"> Hours</label>
+												</div>
+												<div class="radio radio-primary radio-inline">
+													<input type="radio" id="inlineradio1" name="dataRetentionRadios" ng-model="dataRetentionType" value="Days">
+													<label for="inlineradio1"> Days</label>
+												</div>
+												<div class="radio radio-primary radio-inline">
+													<input type="radio" id="inlineradio2" name="dataRetentionRadios" ng-model="dataRetentionType" value="Weeks"  ng-checked="true">
+													<label for="inlineradio2"> Weeks</label>
+												</div>
+												<br>
+												<div class="radio radio-primary radio-inline">
+													<input type="radio" id="inlineradio3" name="dataRetentionRadios" ng-model="dataRetentionType" value="Months" >
+													<label for="inlineradio3"> Months</label>
+												</div>
+												<div class="radio radio-primary radio-inline lastRadio" >
+													<input type="radio" id="inlineradio4" name="dataRetentionRadios" ng-model="dataRetentionType"  value="Years" >
+													<label for="inlineradio4"> Years</label>
+												</div>
+											</div>
+
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-12" id="sliderSelectedVal">
+											1 Week
+										</div>
+									</div>
+									<div class="form-group">
+
+										<div class="col-sm-12">
+											<div id="dataRetentionPeriod"  ></div>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-4 control-label"></label>
+										<div class="col-sm-8">
+											<div class="pull-left">
+												<button type="button" class="btn btn-primary"  ng-click="saveRecoveryFileds()" ng-disabled="policyConfig.$invalid" >
+													Create Schedule
+												</button>
+												&nbsp;
+												<button type="button" class="btn btn-default" ng-click="resetRecoveryFileds()" >
+													Reset
+												</button>
+											</div>
+										</div>
+									</div>
+                                    
+                                    <div class="form-group">
+                                       <div class="col-sm-8 pull-right">
+					                       <span class="mandatory">All fields are mandatory</span>
+                                        </div>   
+                                    </div>
+                                    
+									<!--div class="form-group">
+									<label for="inputPassword3" class="col-sm-4 control-label"></label>
+									<div class="col-sm-8">
+									<div class="pull-left">
+									<span class="asterisk">*</span><span class="mandatory">Mandatory fields</span>
+									</div>
+									</div>
+									</div-->
+
+								</div>
+								<div class="col-sm-4">
+									<div class="version-cost-esti">
+                                        <div class="row">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-12 text-center">
+                                                <h5>Version Cost Estimator (TBD)</h5>
+                                            </div>
+                                        </div>
+										<div class="row">
+											<div class="col-sm-6">
+												Storage Type
+											</div>
+											<div class="col-sm-6">
+												<span class="pull-right">Storage Cost</span>
+											</div>
+										</div>
+										<br />
+										<div class="row">
+											<div class="col-sm-12 local-disk">
+												<span class="pull-left">Local Disk</span><span  class="pull-right storage-cost">-</span><div class="clearfix"></div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12 object-storage">
+												<span  class="pull-left">Object Storage</span><span class="pull-right storage-cost">-</span><div class="clearfix"></div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12 public-cloude">
+												<span class="pull-left">Public Cloud</span><span class="pull-right storage-cost">-</span><div class="clearfix"></div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12 tape">
+												<span class="pull-left">Tape</span><span class="pull-right storage-cost">-</span><div class="clearfix"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-2"></div>
+							</div>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Container for policy-config-->
+		</form>
+	</div>
+	<script>
+		$(function() {
+
+			$('#dataRetentionPeriod').labeledslider({
+				min : 1,
+				max : 7,
+				value : 1,
+				slide : function(event, ui) {
+					if(ui.value < 2) {
+						$("#sliderSelectedVal").html(ui.value + " " + "Week");
+					} else {
+						$("#sliderSelectedVal").html(ui.value + " " + "Weeks");
+					}
+
+				}
+			});
+
+			$('input:radio[name=dataRetentionRadios]').change(function() {
+				if (this.value == 'Hours') {
+				$("#sliderSelectedVal").html('1 Hour');
+				$('#dataRetentionPeriod').labeledslider({
+					min : 1,
+					max : 24,
+					value : 1,
+					slide : function(event, ui) {
+						$("#sliderSelectedVal").html(ui.value);
+						if (ui.value < 2) {
+							$("#sliderSelectedVal").html(ui.value + " " + "Hour");
+						} else {
+							$("#sliderSelectedVal").html(ui.value + " " + "Hours");
+						}
+
+					}
+				});
+
+			}else if(this.value == 'Days') {
+					$("#sliderSelectedVal").html('1 Day');
+					$('#dataRetentionPeriod').labeledslider({
+						min : 1,
+						max : 30,
+						value : 1,
+						slide : function(event, ui) {
+							$("#sliderSelectedVal").html(ui.value);
+							if(ui.value < 2) {
+								$("#sliderSelectedVal").html(ui.value + " " + "Day");
+							} else {
+								$("#sliderSelectedVal").html(ui.value + " " + "Days");
+							}
+						}
+					});
+
+				} else if(this.value == 'Weeks') {
+					$("#sliderSelectedVal").html('1 Week');
+					$('#dataRetentionPeriod').labeledslider({
+						min : 1,
+						max : 7,
+						value : 1,
+						slide : function(event, ui) {
+							if(ui.value < 2) {
+								$("#sliderSelectedVal").html(ui.value + " " + "Week");
+							} else {
+								$("#sliderSelectedVal").html(ui.value + " " + "Weeks");
+							}
+						}
+					});
+				} else if(this.value == 'Months') {
+					$("#sliderSelectedVal").html('1 Month');
+					$('#dataRetentionPeriod').labeledslider({
+						min : 1,
+						max : 12,
+						value : 1,
+						slide : function(event, ui) {
+							if(ui.value < 2) {
+								$("#sliderSelectedVal").html(ui.value + " " + "Month");
+							} else {
+								$("#sliderSelectedVal").html(ui.value + " " + "Months");
+							}
+						}
+					});
+				} else if(this.value == 'Years') {
+					$("#sliderSelectedVal").html('1 Year');
+					$('#dataRetentionPeriod').labeledslider({
+						min : 1,
+						max : 10,
+						value : 1,
+						slide : function(event, ui) {
+							if(ui.value < 2) {
+								$("#sliderSelectedVal").html(ui.value + " " + "Year");
+							} else {
+								$("#sliderSelectedVal").html(ui.value + " " + "Years");
+							}
+						}
+					});
+				}
+			});
+		});
+		/*FusionCharts.ready(function() {
+		 //draw(75);
+		 redraw('recovery_time', 'Minutes');
+		 });*/
+		var spinner = $("#recovery_time, #hours_list ,#minutes_list ,#days_list").spinner();
+		$("#recovery_time").spinner("option", {
+			min : 1,
+			max : 60,
+			numberFormat : "d2",
+			icons : {
+				down : "ui-icon ui-icon-minus",
+				up : "ui-icon ui-icon-plus"
+			},
+			stop : function(event, ui) {
+				redraw('recovery_time');
+			}
+		});
+
+		$("#hours_list").spinner("option", {
+			min : 0,
+			max : 12,
+			numberFormat : "d2",
+			icons : {
+				down : "ui-icon ui-icon-minus",
+				up : "ui-icon ui-icon-plus"
+			}
+		});
+
+		$("#minutes_list").spinner("option", {
+			min : 0,
+			max : 60,
+			numberFormat : "d2",
+			icons : {
+				down : "ui-icon ui-icon-minus",
+				up : "ui-icon ui-icon-plus"
+			}
+		});
+
+		$("#days_list").spinner("option", {
+			min : 1,
+			max : 24,
+			icons : {
+				down : "ui-icon ui-icon-minus",
+				up : "ui-icon ui-icon-plus"
+			},
+			stop : function(event, ui) {
+				angular.element('#days_list').scope().$apply(function() {
+					angular.element('#days_list').scope().dataRetention = document.getElementById("days_list").value
+				});
+			}
+		});
+
+		$('document').ready(function() {
+
+			$(function() {
+				$('#btn-upload').click(function(e) {
+					e.preventDefault();
+					$('#file').click();
+				});
+			});
+
+			$(".source-type-dropdown li a").click(function() {
+				var selText = $(this).text();
+				$(this).parents('.source-type-dropdown').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+			});
+			//Popover
+			$('.over-block').popover({
+				html : true,
+				trigger : 'hover'
+			});
+			$('.curved').circleType({
+				radius : 180
+			});
+			$('.reversecurved').circleType({
+				radius : 190,
+				dir : -1
+			});
+
+			$('.curved-ticks-seconds').circleType({
+				radius : 170
+			});
+			$('.curved-ticks-minutes').circleType({
+				radius : 170
+			});
+			$('.curved-ticks-hours').circleType({
+				radius : 170
+			});
+			$('.curved-ticks-days').circleType({
+				radius : 170
+			});
+			$('.curved-ticks-weeks').circleType({
+				radius : 170
+			});
+			$('.curved-ticks-months').circleType({
+				radius : 170
+			});
+
+			//Popover
+			$('.over-block').popover({
+				html : true,
+				trigger : 'hover'
+			});
+			//popover hack for keep remain open while clicking
+			$('.over-block').click(function() {
+				$(this).popover('hide');
+			});
+			/// Create the policy dial
+			// use globalKnob to change the pointer orientation in percentage
+
+			var inputArray = Array.prototype.slice.call(document.getElementsByClassName('policy_dial_input'));
+			globalKnob = new Knob(inputArray[0], new Ui['DIAL']());
+
+			// rotate the knob pin based on Model values
+			globalKnob.changed(20.83);
+			// 20.83 deg = 15 mins
+			globalKnob.svgUpdateValue(15, 'Minute');
+			$('.policy_dial circle').eq(0).attr('class', 'background_circle');
+			$('.policy_dial circle').eq(1).attr('class', 'outer_circle');
+
+			$('.policy_dial circle').eq(2).attr('class', 'inner_circle');
+
+			// Error message plugIn
+			toastr.options = {
+				closeButton : true,
+				debug : false,
+				progressBar : true,
+				positionClass : "toast-top-right",
+				preventDuplicates : false,
+				onclick : null,
+				showDuration : "300",
+				hideDuration : "1000",
+				timeOut : "5000",
+				extendedTimeOut : "1000",
+				showEasing : "swing",
+				hideEasing : "linear",
+				showMethod : "fadeIn",
+				hideMethod : "fadeOut"
+			};
+
+		});
+
+	</script>
